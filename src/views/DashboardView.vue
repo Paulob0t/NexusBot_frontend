@@ -23,6 +23,7 @@ const isClient = computed(() => authStore.isCliente)
 // Estados de control
 const currentSistema = ref<'conlineweb' | 'hostingpro'>('conlineweb')
 const isLoading = ref(true)
+const isSwitching = ref(false)
 const dashboardData = ref<DashboardResponse | null>(null)
 const errorMsg = ref<string | null>(null)
 
@@ -30,8 +31,12 @@ const errorMsg = ref<string | null>(null)
 const searchQuery = ref('')
 const activeFilter = ref<string>('todos')
 
-async function loadDashboardData() {
-  isLoading.value = true
+async function loadDashboardData(isInitial = false) {
+  if (isInitial) {
+    isLoading.value = true
+  } else {
+    isSwitching.value = true
+  }
   errorMsg.value = null
   try {
     const data = await dashboardApi.getStats(currentSistema.value)
@@ -40,15 +45,16 @@ async function loadDashboardData() {
     errorMsg.value = err.response?.data?.detail || 'Error al conectar con la base de datos'
   } finally {
     isLoading.value = false
+    isSwitching.value = false
   }
 }
 
 watch(currentSistema, () => {
-  loadDashboardData()
+  loadDashboardData(false)
 })
 
 onMounted(() => {
-  loadDashboardData()
+  loadDashboardData(true)
 })
 
 function handleLogout() {
@@ -141,23 +147,25 @@ const maxTrendAmount = computed(() => {
           </div>
 
           <div class="flex items-center space-x-3 sm:space-x-4">
-            <!-- Selector ConlineWeb / HostingPro -->
-            <div v-if="!isClient" class="flex p-1 rounded-lg bg-neutral-950 border border-neutral-800">
+            <!-- Selector Fluido ConlineWeb / HostingPro (Pill animado) -->
+            <div v-if="!isClient" class="relative flex p-1 rounded-lg bg-neutral-950 border border-neutral-800 select-none">
+              <!-- Fondo deslizante animado -->
+              <div
+                class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-md bg-neutral-800 transition-all duration-200 ease-out pointer-events-none"
+                :class="currentSistema === 'conlineweb' ? 'left-1' : 'left-[calc(50%+2px)]'"
+              ></div>
+
               <button
                 @click="currentSistema = 'conlineweb'"
-                :class="[
-                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
-                  currentSistema === 'conlineweb' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
-                ]"
+                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                :class="currentSistema === 'conlineweb' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-white'"
               >
                 ConlineWeb
               </button>
               <button
                 @click="currentSistema = 'hostingpro'"
-                :class="[
-                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
-                  currentSistema === 'hostingpro' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
-                ]"
+                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                :class="currentSistema === 'hostingpro' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-white'"
               >
                 HostingPro
               </button>
@@ -192,7 +200,7 @@ const maxTrendAmount = computed(() => {
             <div class="flex items-center space-x-2">
               <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">Resumen General</span>
               <span class="text-neutral-700">•</span>
-              <span class="text-[10px] font-mono text-neutral-400 uppercase">{{ currentSistema }}</span>
+              <span class="text-[10px] font-mono text-neutral-400 uppercase transition-all duration-200">{{ currentSistema }}</span>
             </div>
             <h2 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">
               Bienvenido, {{ user?.nombre || user?.usuario }}
@@ -203,7 +211,7 @@ const maxTrendAmount = computed(() => {
           </div>
         </div>
 
-        <!-- LOADING STATE -->
+        <!-- LOADING STATE INICIAL (Solo primera carga) -->
         <div v-if="isLoading" class="py-20 flex flex-col items-center justify-center space-y-3">
           <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
           <p class="text-neutral-500 text-xs font-mono">Cargando métricas...</p>
@@ -218,40 +226,65 @@ const maxTrendAmount = computed(() => {
           <p class="text-neutral-400">{{ errorMsg }}</p>
         </div>
 
-        <!-- CONTENIDO CARGADO -->
+        <!-- CONTENIDO CARGADO CON TRANSICIÓN FLUIDA -->
         <template v-else-if="dashboardData">
-          <!-- 1. KPIS SUPERIORES -->
-          <DashboardKpis
-            :kpis="dashboardData.kpis"
-            :format-currency="formatCurrency"
-          />
+          <Transition name="fade-dashboard" mode="out-in">
+            <div
+              :key="currentSistema"
+              class="space-y-6 transition-opacity duration-200"
+              :class="{ 'opacity-50 pointer-events-none': isSwitching }"
+            >
+              <!-- 1. KPIS SUPERIORES -->
+              <DashboardKpis
+                :kpis="dashboardData.kpis"
+                :format-currency="formatCurrency"
+              />
 
-          <!-- 2. TABLA DE COBRANZA -->
-          <PendingPaymentsTable
-            :pagos="filteredPagos"
-            :search-query="searchQuery"
-            :active-filter="activeFilter"
-            :format-currency="formatCurrency"
-            :format-whats-app-link="formatWhatsAppLink"
-            @update:search-query="searchQuery = $event"
-            @update:active-filter="activeFilter = $event"
-            @copy-details="copyPaymentDetails"
-          />
+              <!-- 2. TABLA DE COBRANZA -->
+              <PendingPaymentsTable
+                :pagos="filteredPagos"
+                :search-query="searchQuery"
+                :active-filter="activeFilter"
+                :format-currency="formatCurrency"
+                :format-whats-app-link="formatWhatsAppLink"
+                @update:search-query="searchQuery = $event"
+                @update:active-filter="activeFilter = $event"
+                @copy-details="copyPaymentDetails"
+              />
 
-          <!-- 3. TENDENCIAS & DISTRIBUCIÓN -->
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <FinancialTrends
-              :trends="dashboardData.monthly_trend"
-              :max-trend-amount="maxTrendAmount"
-              :format-currency="formatCurrency"
-            />
-            <ServiceDistribution
-              :distribution="dashboardData.distribution"
-              :format-currency="formatCurrency"
-            />
-          </div>
+              <!-- 3. TENDENCIAS & DISTRIBUCIÓN -->
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <FinancialTrends
+                  :trends="dashboardData.monthly_trend"
+                  :max-trend-amount="maxTrendAmount"
+                  :format-currency="formatCurrency"
+                />
+                <ServiceDistribution
+                  :distribution="dashboardData.distribution"
+                  :format-currency="formatCurrency"
+                />
+              </div>
+            </div>
+          </Transition>
         </template>
       </main>
     </div>
   </div>
 </template>
+
+<style scoped>
+.fade-dashboard-enter-active,
+.fade-dashboard-leave-active {
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-dashboard-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.fade-dashboard-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>

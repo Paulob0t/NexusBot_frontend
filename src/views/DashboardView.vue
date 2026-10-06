@@ -114,7 +114,7 @@ const maxTrendAmount = computed(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-[#0F172A] text-slate-100 selection:bg-blue-600 selection:text-white flex overflow-hidden">
+  <div class="h-screen w-screen bg-[#09090b] text-neutral-200 selection:bg-neutral-700 selection:text-white flex overflow-hidden">
     <!-- MENÚ LATERAL -->
     <AppSidebar
       :is-mobile-open="isMobileSidebarOpen"
@@ -122,32 +122,32 @@ const maxTrendAmount = computed(() => {
     />
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16">
+    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16 bg-[#09090b]">
       <!-- HEADER SUPERIOR -->
-      <header class="sticky top-0 z-30 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/80 h-16 shrink-0">
+      <header class="sticky top-0 z-30 bg-[#09090b]/90 backdrop-blur-md border-b border-neutral-900 h-16 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <button
               @click="isMobileSidebarOpen = true"
-              class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              class="lg:hidden p-2 rounded-lg bg-neutral-900 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
             >
-              <i class="pi pi-bars text-base"></i>
+              <i class="pi pi-bars text-sm"></i>
             </button>
-            <div class="hidden sm:flex items-center space-x-2">
-              <span class="text-sm font-bold text-white">Panel Principal</span>
-              <span class="text-slate-600">•</span>
-              <span class="text-xs text-blue-400 font-semibold uppercase tracking-wider">{{ currentSistema }}</span>
+            <div class="hidden sm:flex items-center space-x-2.5">
+              <span class="text-sm font-semibold text-white">Dashboard</span>
+              <span class="text-neutral-700">/</span>
+              <span class="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">{{ currentSistema }}</span>
             </div>
           </div>
 
           <div class="flex items-center space-x-3 sm:space-x-4">
             <!-- Selector ConlineWeb / HostingPro -->
-            <div v-if="!isClient" class="flex p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div v-if="!isClient" class="flex p-1 rounded-lg bg-neutral-950 border border-neutral-800">
               <button
                 @click="currentSistema = 'conlineweb'"
                 :class="[
-                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200',
-                  currentSistema === 'conlineweb' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
+                  currentSistema === 'conlineweb' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
                 ]"
               >
                 ConlineWeb
@@ -155,8 +155,8 @@ const maxTrendAmount = computed(() => {
               <button
                 @click="currentSistema = 'hostingpro'"
                 :class="[
-                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200',
-                  currentSistema === 'hostingpro' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
+                  currentSistema === 'hostingpro' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
                 ]"
               >
                 HostingPro
@@ -164,17 +164,17 @@ const maxTrendAmount = computed(() => {
             </div>
 
             <!-- Perfil & Logout -->
-            <div class="flex items-center space-x-3 pl-2 sm:pl-3 border-l border-slate-800">
+            <div class="flex items-center space-x-3 pl-2 sm:pl-3 border-l border-neutral-800">
               <div class="hidden md:flex flex-col text-right">
-                <span class="text-xs font-semibold text-white">{{ user?.nombre || user?.usuario }}</span>
-                <span class="text-[10px] text-blue-400 font-medium">{{ user?.rol }}</span>
+                <span class="text-xs font-medium text-white">{{ user?.nombre || user?.usuario }}</span>
+                <span class="text-[10px] text-neutral-500 font-mono">{{ user?.rol }}</span>
               </div>
               <button
                 @click="handleLogout"
-                class="p-2 rounded-xl bg-slate-800/80 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-slate-700/60 transition-colors"
+                class="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors"
                 title="Cerrar sesión"
               >
-                <i class="pi pi-sign-out text-sm"></i>
+                <i class="pi pi-sign-out text-xs"></i>
               </button>
             </div>
           </div>
@@ -185,37 +185,37 @@ const maxTrendAmount = computed(() => {
       <AppToast />
 
       <!-- CONTENIDO PRINCIPAL -->
-      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
-        <!-- BIENVENIDA HERO -->
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-indigo-950/60 border border-slate-800/80 p-6 sm:p-8 shadow-2xl">
+      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+        <!-- BIENVENIDA HERO SOBRIO -->
+        <div class="rounded-xl bg-[#0c0c0e] border border-neutral-800 p-6">
           <div class="space-y-1.5">
             <div class="flex items-center space-x-2">
-              <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider">Panel Principal</span>
-              <span class="text-slate-600">•</span>
-              <span class="text-xs text-slate-400 font-medium capitalize">{{ currentSistema }}</span>
+              <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">Resumen General</span>
+              <span class="text-neutral-700">•</span>
+              <span class="text-[10px] font-mono text-neutral-400 uppercase">{{ currentSistema }}</span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Hola, {{ user?.nombre || user?.usuario }} 👋
+            <h2 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+              Bienvenido, {{ user?.nombre || user?.usuario }}
             </h2>
-            <p class="text-slate-400 text-xs sm:text-sm">
-              Resumen ejecutivo de clientes, cobranza activa y vencimientos de infraestructura.
+            <p class="text-neutral-400 text-xs sm:text-sm">
+              Métricas de clientes, cobros pendientes y estado de infraestructura cloud.
             </p>
           </div>
         </div>
 
         <!-- LOADING STATE -->
-        <div v-if="isLoading" class="py-20 flex flex-col items-center justify-center space-y-4">
-          <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
-          <p class="text-slate-400 text-xs">Cargando métricas ejecutivas...</p>
+        <div v-if="isLoading" class="py-20 flex flex-col items-center justify-center space-y-3">
+          <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
+          <p class="text-neutral-500 text-xs font-mono">Cargando métricas...</p>
         </div>
 
         <!-- ERROR STATE -->
-        <div v-else-if="errorMsg" class="p-6 rounded-3xl bg-rose-950/30 border border-rose-500/40 text-rose-300 text-xs">
-          <div class="flex items-center space-x-2 font-bold mb-1">
-            <i class="pi pi-exclamation-triangle"></i>
+        <div v-else-if="errorMsg" class="p-4 rounded-xl bg-neutral-900 border border-red-900/60 text-red-400 text-xs">
+          <div class="flex items-center space-x-2 font-semibold mb-1">
+            <i class="pi pi-info-circle"></i>
             <span>Error al cargar datos</span>
           </div>
-          <p>{{ errorMsg }}</p>
+          <p class="text-neutral-400">{{ errorMsg }}</p>
         </div>
 
         <!-- CONTENIDO CARGADO -->

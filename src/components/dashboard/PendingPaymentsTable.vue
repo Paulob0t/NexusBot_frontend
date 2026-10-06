@@ -17,34 +17,34 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="rounded-3xl bg-[#0D121F]/90 border border-slate-800/80 p-5 sm:p-7 space-y-5 shadow-2xl">
+  <div class="rounded-xl bg-[#0c0c0e] border border-neutral-800 p-5 sm:p-6 space-y-4">
     <!-- Header y Filtros -->
-    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
       <div>
-        <h3 class="text-base font-bold text-white tracking-tight flex items-center space-x-2.5">
+        <h3 class="text-sm font-semibold text-white tracking-tight flex items-center space-x-2">
           <span>Cobranza & Pagos Pendientes</span>
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30">
-            {{ pagos.length }} Registros
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-neutral-900 text-neutral-400 border border-neutral-800">
+            {{ pagos.length }}
           </span>
         </h3>
-        <p class="text-xs text-slate-400 mt-0.5">Acciones rápidas para WhatsApp, correo y notas de cobro.</p>
+        <p class="text-xs text-neutral-500 mt-0.5">Seguimiento de facturas por cobrar y gestión de cobranza.</p>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
         <!-- Input de Búsqueda -->
         <div class="relative">
-          <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+          <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
           <input
             :value="searchQuery"
             @input="emit('update:search-query', ($event.target as HTMLInputElement).value)"
             type="text"
             placeholder="Buscar cliente, concepto..."
-            class="w-full sm:w-60 pl-9 pr-4 py-2 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+            class="w-full sm:w-56 pl-8 pr-3 py-1.5 rounded-lg bg-neutral-950 border border-neutral-800 text-xs text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
           />
         </div>
 
         <!-- Filtros Rápidos -->
-        <div class="flex items-center space-x-1 p-1 rounded-xl bg-slate-950/80 border border-slate-800 overflow-x-auto text-xs">
+        <div class="flex items-center space-x-1 p-1 rounded-lg bg-neutral-950 border border-neutral-800 overflow-x-auto text-xs">
           <button
             v-for="f in [
               { id: 'todos', label: 'Todos' },
@@ -56,8 +56,8 @@ const emit = defineEmits<{
             :key="f.id"
             @click="emit('update:active-filter', f.id)"
             :class="[
-              'px-2.5 py-1 rounded-lg font-medium transition-colors shrink-0',
-              activeFilter === f.id ? 'bg-blue-600 text-white font-semibold' : 'text-slate-400 hover:text-white'
+              'px-2.5 py-1 rounded text-xs transition-colors shrink-0',
+              activeFilter === f.id ? 'bg-neutral-800 text-white font-medium' : 'text-neutral-400 hover:text-white'
             ]"
           >
             {{ f.label }}
@@ -69,100 +69,100 @@ const emit = defineEmits<{
     <!-- Tabla -->
     <div class="overflow-x-auto">
       <table class="w-full text-left text-xs">
-        <thead class="bg-[#0A0F1D] text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800/80 text-[10px]">
+        <thead class="bg-neutral-950/80 text-neutral-400 uppercase tracking-wider font-mono text-[10px] border-b border-neutral-800">
           <tr>
-            <th class="py-3.5 px-4">Cliente / Servicio</th>
-            <th class="py-3.5 px-4">Concepto</th>
-            <th class="py-3.5 px-4">Monto</th>
-            <th class="py-3.5 px-4">Vencimiento</th>
-            <th class="py-3.5 px-4 text-center">Acciones Rápidas</th>
+            <th class="py-3 px-3.5">Cliente / Servicio</th>
+            <th class="py-3 px-3.5">Concepto</th>
+            <th class="py-3 px-3.5">Monto</th>
+            <th class="py-3 px-3.5">Vencimiento</th>
+            <th class="py-3 px-3.5 text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-800/50">
+        <tbody class="divide-y divide-neutral-900">
           <tr
             v-for="pago in pagos"
             :key="pago.id"
-            class="hover:bg-[#131A2D]/70 transition-colors duration-100 group"
+            class="hover:bg-neutral-900/40 transition-colors duration-100 group"
           >
             <!-- Cliente / Dominio -->
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-white text-sm">{{ pago.cliente_nombre }}</div>
-              <div class="text-slate-400 text-[11px] flex items-center space-x-1.5 mt-0.5">
-                <span v-if="pago.nombre_servicio" class="text-blue-400 flex items-center font-mono">
-                  <i class="pi pi-globe text-[10px] mr-1"></i>{{ pago.nombre_servicio }}
+            <td class="py-3 px-3.5">
+              <div class="font-medium text-white text-xs">{{ pago.cliente_nombre }}</div>
+              <div class="text-neutral-500 text-[11px] flex items-center space-x-1.5 mt-0.5">
+                <span v-if="pago.nombre_servicio" class="text-neutral-400 font-mono">
+                  {{ pago.nombre_servicio }}
                 </span>
                 <span v-else>{{ pago.cliente_correo || 'Sin correo' }}</span>
               </div>
             </td>
 
             <!-- Concepto y Tipo -->
-            <td class="py-3.5 px-4">
-              <div class="font-medium text-slate-200">{{ pago.concepto }}</div>
-              <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-900 text-slate-400 border border-slate-800">
+            <td class="py-3 px-3.5">
+              <div class="text-neutral-300 text-xs">{{ pago.concepto }}</div>
+              <span class="inline-block mt-0.5 px-1.5 py-0.2 text-[9px] font-mono uppercase rounded bg-neutral-900 text-neutral-400 border border-neutral-800">
                 {{ pago.tipo_servicio_label }}
               </span>
             </td>
 
             <!-- Monto -->
-            <td class="py-3.5 px-4 font-black text-white text-sm">
+            <td class="py-3 px-3.5 font-semibold text-white font-mono text-xs">
               {{ formatCurrency(pago.monto, pago.currency) }}
             </td>
 
             <!-- Estado Vencimiento -->
-            <td class="py-3.5 px-4">
+            <td class="py-3 px-3.5">
               <div class="flex items-center space-x-1.5">
                 <span
                   v-if="pago.estado_vencimiento === 'vencido'"
-                  class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 flex items-center space-x-1"
+                  class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-950/40 text-red-400 border border-red-900/50"
                 >
-                  <i class="pi pi-exclamation-triangle text-[10px]"></i>
-                  <span>Vencido hace {{ Math.abs(pago.dias_restantes ?? 0) }}d</span>
+                  Vencido (hace {{ Math.abs(pago.dias_restantes ?? 0) }}d)
                 </span>
                 <span
                   v-else-if="pago.estado_vencimiento === 'prox7'"
-                  class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center space-x-1"
+                  class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-950/30 text-amber-400 border border-amber-900/40"
                 >
-                  <i class="pi pi-clock text-[10px]"></i>
-                  <span>Vence en {{ pago.dias_restantes }}d</span>
+                  Vence en {{ pago.dias_restantes }}d
                 </span>
                 <span
                   v-else
-                  class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-900 text-slate-300 border border-slate-800"
+                  class="text-neutral-500 text-[11px] font-mono"
                 >
-                  {{ pago.fecha_limite || 'Sin fecha' }}
+                  {{ pago.fecha_limite || 'Pendiente' }}
                 </span>
               </div>
             </td>
 
             <!-- Acciones -->
-            <td class="py-3.5 px-4 text-center">
-              <div class="flex items-center justify-center space-x-1.5">
+            <td class="py-3 px-3.5 text-center">
+              <div class="flex items-center justify-center space-x-1">
+                <!-- Copiar datos -->
+                <button
+                  @click="emit('copy-details', pago)"
+                  class="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors"
+                  title="Copiar datos de pago"
+                >
+                  <i class="pi pi-copy text-xs"></i>
+                </button>
+
+                <!-- WhatsApp -->
                 <a
                   v-if="pago.cliente_telefono"
                   :href="formatWhatsAppLink(pago.cliente_telefono, pago.cliente_nombre, pago.monto, pago.concepto)"
                   target="_blank"
-                  rel="noopener"
-                  class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white border border-emerald-500/30 flex items-center justify-center transition-colors"
-                  title="Enviar WhatsApp de Cobro"
+                  rel="noopener noreferrer"
+                  class="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors"
+                  title="Enviar WhatsApp de cobranza"
                 >
                   <i class="pi pi-whatsapp text-xs"></i>
                 </a>
-                <a
-                  v-if="pago.cliente_correo"
-                  :href="`mailto:${pago.cliente_correo}?subject=Aviso de Renovación - ${pago.concepto}&body=Estimado ${pago.cliente_nombre}, le informamos sobre el vencimiento de su servicio por un monto de ${pago.monto} ${pago.currency}.`"
-                  class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white border border-blue-500/30 flex items-center justify-center transition-colors"
-                  title="Enviar Correo"
-                >
-                  <i class="pi pi-envelope text-xs"></i>
-                </a>
-                <button
-                  @click="emit('copy-details', pago)"
-                  class="w-8 h-8 rounded-xl bg-slate-800/80 text-slate-400 hover:bg-slate-700 hover:text-white border border-slate-700 flex items-center justify-center transition-colors"
-                  title="Copiar Datos de Cobranza"
-                >
-                  <i class="pi pi-copy text-xs"></i>
-                </button>
               </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr v-if="pagos.length === 0">
+            <td colspan="5" class="py-8 text-center text-neutral-500 text-xs font-mono">
+              No se encontraron registros de cobros pendientes.
             </td>
           </tr>
         </tbody>

@@ -23,7 +23,7 @@ async function handleLogin() {
     return
   }
   if (!credentials.contrasena) {
-    errorMessage.value = 'Por favor ingresa tu contraseña de acceso'
+    errorMessage.value = 'Por favor ingresa tu contraseña'
     return
   }
 
@@ -39,7 +39,7 @@ async function handleLogin() {
     const returnTo = (route.query.redirect as string) || redirectUrl || '/dashboard'
     router.push(returnTo)
   } catch (err: any) {
-    errorMessage.value = err.message || 'Usuario o contraseña incorrectos'
+    errorMessage.value = err.message || 'Credenciales de acceso no válidas'
   } finally {
     isSubmitting.value = false
   }
@@ -47,159 +47,154 @@ async function handleLogin() {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col lg:flex-row bg-[#0B0F19] text-slate-100 font-sans selection:bg-blue-600 selection:text-white relative overflow-hidden">
-    <!-- Luces ambientales de fondo -->
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[140px] pointer-events-none"></div>
-    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none"></div>
-    <div class="absolute top-1/2 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-
-    <!-- SECCIÓN IZQUIERDA: HERO EMPRESARIAL (Desktop) -->
-    <div class="hidden lg:flex lg:w-7/12 flex-col justify-between p-12 xl:p-16 relative z-10 border-r border-slate-800/60 bg-gradient-to-br from-slate-950/80 via-slate-900/40 to-slate-950/80 backdrop-blur-xl">
-      <!-- Marca y Badge -->
+  <div class="min-h-screen w-full flex flex-col lg:flex-row bg-[#09090b] text-neutral-200 font-sans selection:bg-neutral-700 selection:text-white relative">
+    
+    <!-- SECCIÓN IZQUIERDA: HERO EDITORIAL & ESTADO (Desktop) -->
+    <div class="hidden lg:flex lg:w-7/12 flex-col justify-between p-12 xl:p-20 relative z-10 border-r border-neutral-900 bg-[#0c0c0e]">
+      
+      <!-- Encabezado / Identidad de Marca -->
       <div class="space-y-6">
         <div class="flex items-center space-x-3.5">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 p-0.5 shadow-xl shadow-blue-500/20">
-            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-              <i class="pi pi-bolt text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"></i>
-            </div>
+          <div class="w-10 h-10 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+            <i class="pi pi-shield text-lg text-neutral-200"></i>
           </div>
           <div>
-            <span class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
-              NEXUS<span class="text-blue-500">BOT</span>
+            <span class="text-xl font-semibold tracking-tight text-white">
+              NEXUSBOT <span class="text-neutral-500 font-normal">CRM</span>
             </span>
-            <span class="block text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
-              Enterprise Cloud & CRM Suite
+            <span class="block text-[10px] font-mono tracking-wider text-neutral-500 uppercase">
+              Core Enterprise Platform
             </span>
           </div>
         </div>
 
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Sistema Operativo v2.0 • Migración de Alto Rendimiento</span>
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>SISTEMA OPERACIONAL • EN LÍNEA</span>
         </div>
       </div>
 
-      <!-- Título Central y Propuesta de Valor -->
-      <div class="space-y-8 my-auto py-12 max-w-xl">
+      <!-- Centro: Mensaje sobrio y métricas -->
+      <div class="space-y-10 my-auto py-8 max-w-xl">
         <div class="space-y-4">
-          <h1 class="text-4xl xl:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Gestión inteligente de clientes, infraestructura y servicios.
+          <h1 class="text-3xl xl:text-4xl font-medium tracking-tight text-white leading-snug">
+            Infraestructura, gestión de clientes y servicios en un solo entorno centralizado.
           </h1>
-          <p class="text-slate-400 text-base xl:text-lg leading-relaxed font-normal">
-            Control centralizado para dominios, hosting, facturación y tickets con tecnología reactiva y seguridad de grado empresarial.
+          <p class="text-neutral-400 text-sm xl:text-base leading-relaxed font-normal">
+            Plataforma segura de alto rendimiento para la administración integral de activos cloud, carteras de clientes, dominios, servidores y soporte técnico.
           </p>
         </div>
 
-        <!-- Tarjetas de Métricas en Vivo / Glassmorphism -->
-        <div class="grid grid-cols-3 gap-4 pt-2">
-          <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md">
-            <div class="text-2xl font-bold text-white tracking-tight">99.98%</div>
-            <div class="text-xs text-slate-400 font-medium mt-1">Uptime de Red</div>
+        <!-- Métricas Hairline en Blanco y Negro -->
+        <div class="grid grid-cols-3 gap-3 pt-2">
+          <div class="p-4 rounded-lg bg-neutral-900/60 border border-neutral-800">
+            <div class="text-xl font-semibold text-white tracking-tight font-mono">99.98%</div>
+            <div class="text-[11px] text-neutral-500 font-medium mt-1">Disponibilidad</div>
           </div>
-          <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md">
-            <div class="text-2xl font-bold text-blue-400 tracking-tight">&lt; 15ms</div>
-            <div class="text-xs text-slate-400 font-medium mt-1">FastAPI Core</div>
+          <div class="p-4 rounded-lg bg-neutral-900/60 border border-neutral-800">
+            <div class="text-xl font-semibold text-neutral-200 tracking-tight font-mono">&lt; 15ms</div>
+            <div class="text-[11px] text-neutral-500 font-medium mt-1">Latencia API</div>
           </div>
-          <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md">
-            <div class="text-2xl font-bold text-emerald-400 tracking-tight">SSL / JWT</div>
-            <div class="text-xs text-slate-400 font-medium mt-1">Bcrypt Hash</div>
+          <div class="p-4 rounded-lg bg-neutral-900/60 border border-neutral-800">
+            <div class="text-xl font-semibold text-neutral-200 tracking-tight font-mono">JWT / 256</div>
+            <div class="text-[11px] text-neutral-500 font-medium mt-1">Cifrado de Sesión</div>
           </div>
         </div>
 
-        <!-- Tarjeta Flotante Informativa -->
-        <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 to-slate-900/60 border border-blue-500/20 backdrop-blur-md flex items-center space-x-4 shadow-2xl">
-          <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
-            <i class="pi pi-database text-lg"></i>
+        <!-- Módulo de Estado del Sistema -->
+        <div class="p-4 rounded-lg bg-neutral-900/40 border border-neutral-800 flex items-center space-x-3.5">
+          <div class="w-8 h-8 rounded bg-neutral-800 flex items-center justify-center text-neutral-300 shrink-0">
+            <i class="pi pi-server text-sm"></i>
           </div>
-          <div class="text-xs space-y-0.5">
-            <div class="font-semibold text-white">Base de Datos Conectada</div>
-            <div class="text-slate-400">Sincronización en tiempo real con MariaDB / MySQL sin pérdida de datos.</div>
+          <div class="text-xs">
+            <div class="font-medium text-neutral-200">Base de Datos MariaDB / MySQL</div>
+            <div class="text-neutral-500">Conexión activa con sincronización atómica.</div>
           </div>
         </div>
       </div>
 
-      <!-- Footer Izquierdo -->
-      <div class="flex items-center justify-between text-xs text-slate-500 pt-6 border-t border-slate-800/60">
-        <span>© 2026 NexusBot Enterprise. Todos los derechos reservados.</span>
-        <span class="flex items-center space-x-1">
-          <i class="pi pi-shield text-emerald-400"></i>
-          <span class="text-slate-400 font-medium">Seguridad Activa</span>
+      <!-- Pie de página izquierdo -->
+      <div class="flex items-center justify-between text-xs text-neutral-600 pt-6 border-t border-neutral-900">
+        <span>© 2026 NexusBot CRM. Todos los derechos reservados.</span>
+        <span class="flex items-center space-x-1.5 text-neutral-500">
+          <i class="pi pi-lock text-[11px]"></i>
+          <span>Ambiente Seguro</span>
         </span>
       </div>
     </div>
 
-    <!-- SECCIÓN DERECHA: FORMULARIO DE ACCESO -->
-    <div class="w-full lg:w-5/12 flex items-center justify-center p-6 sm:p-10 lg:p-12 xl:p-16 relative z-10">
-      <div class="w-full max-w-md space-y-8">
-        <!-- Logo en Móvil -->
+    <!-- SECCIÓN DERECHA: FORMULARIO SOBRIO Y ELEGANTE -->
+    <div class="w-full lg:w-5/12 flex items-center justify-center p-6 sm:p-12 lg:p-16 xl:p-20 relative z-10 bg-[#09090b]">
+      <div class="w-full max-w-sm space-y-8">
+        
+        <!-- Logo en versión Móvil -->
         <div class="lg:hidden flex items-center space-x-3 mb-6">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 p-0.5">
-            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <i class="pi pi-bolt text-xl text-cyan-400"></i>
-            </div>
+          <div class="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+            <i class="pi pi-shield text-base text-neutral-200"></i>
           </div>
           <div>
-            <span class="text-xl font-bold text-white">NEXUS<span class="text-blue-500">BOT</span></span>
-            <span class="block text-[10px] text-slate-400">Enterprise CRM</span>
+            <span class="text-lg font-semibold text-white">NEXUSBOT</span>
+            <span class="block text-[10px] font-mono text-neutral-500">CRM SUITE</span>
           </div>
         </div>
 
         <!-- Encabezado del Formulario -->
         <div class="space-y-2">
-          <div class="inline-flex items-center px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/[0.1] text-slate-300 text-[11px] font-semibold uppercase tracking-wider">
-            Portal Seguro de Acceso
+          <div class="inline-flex items-center px-2.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 text-[10px] font-mono uppercase tracking-wider">
+            Portal de Autenticación
           </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h2 class="text-2xl font-semibold text-white tracking-tight">
             Iniciar Sesión
           </h2>
-          <p class="text-slate-400 text-sm">
-            Ingresa tus credenciales para acceder al panel de control.
+          <p class="text-neutral-400 text-xs sm:text-sm">
+            Ingresa tus credenciales autorizadas para acceder.
           </p>
         </div>
 
-        <!-- Alerta de Error Elegante -->
+        <!-- Alerta de Error Sobria -->
         <transition name="fade">
-          <div v-if="errorMessage" class="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-start space-x-3 shadow-lg shadow-red-950/40">
-            <i class="pi pi-exclamation-triangle text-base text-red-400 shrink-0 mt-0.5"></i>
-            <div class="flex-1 font-medium">{{ errorMessage }}</div>
-            <button @click="errorMessage = ''" class="text-red-400 hover:text-red-200">
+          <div v-if="errorMessage" class="p-3.5 rounded-lg bg-neutral-900 border border-red-900/60 text-red-400 text-xs flex items-start space-x-3">
+            <i class="pi pi-info-circle text-sm text-red-400 shrink-0 mt-0.5"></i>
+            <div class="flex-1 leading-relaxed">{{ errorMessage }}</div>
+            <button @click="errorMessage = ''" class="text-neutral-500 hover:text-neutral-300">
               <i class="pi pi-times text-xs"></i>
             </button>
           </div>
         </transition>
 
-        <!-- Formulario -->
-        <form @submit.prevent="handleLogin" class="space-y-5">
-          <!-- Campo Usuario / Correo -->
-          <div class="space-y-2">
-            <label for="usuario" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-              Usuario o Correo Electrónico
+        <!-- Formulario de Acceso -->
+        <form @submit.prevent="handleLogin" class="space-y-4">
+          
+          <!-- Campo: Usuario / Correo -->
+          <div class="space-y-1.5">
+            <label for="usuario" class="block text-xs font-medium text-neutral-400">
+              Usuario o Correo
             </label>
-            <div class="relative rounded-xl shadow-sm">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="pi pi-user text-sm"></i>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-500">
+                <i class="pi pi-user text-xs"></i>
               </span>
               <input
                 id="usuario"
                 v-model="credentials.usuario"
                 type="text"
-                placeholder="ej. admin o contacto@empresa.com"
+                placeholder="nombre_usuario"
                 autocomplete="username"
                 autofocus
                 :disabled="isSubmitting"
-                class="w-full pl-10 pr-4 py-3 bg-slate-900/90 text-white placeholder-slate-500 rounded-xl border border-slate-700/80 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 text-sm transition-all duration-200 outline-none hover:border-slate-600 disabled:opacity-50"
+                class="w-full pl-9 pr-3.5 py-2.5 bg-neutral-950 text-white placeholder-neutral-600 rounded-lg border border-neutral-800 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/20 text-sm transition duration-150 outline-none hover:border-neutral-700 disabled:opacity-50"
               />
             </div>
           </div>
 
-          <!-- Campo Contraseña -->
-          <div class="space-y-2">
+          <!-- Campo: Contraseña -->
+          <div class="space-y-1.5">
             <div class="flex items-center justify-between">
-              <label for="contrasena" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              <label for="contrasena" class="block text-xs font-medium text-neutral-400">
                 Contraseña
               </label>
             </div>
-            <div class="relative rounded-xl shadow-sm">
+            <div class="relative">
               <Password
                 id="contrasena"
                 v-model="credentials.contrasena"
@@ -207,51 +202,52 @@ async function handleLogin() {
                 :feedback="false"
                 toggleMask
                 class="w-full"
-                inputClass="w-full pl-4 pr-11 py-3 bg-slate-900/90 text-white placeholder-slate-500 rounded-xl border border-slate-700/80 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 text-sm transition-all duration-200 outline-none hover:border-slate-600 disabled:opacity-50"
+                inputClass="w-full pl-3.5 pr-10 py-2.5 bg-neutral-950 text-white placeholder-neutral-600 rounded-lg border border-neutral-800 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/20 text-sm transition duration-150 outline-none hover:border-neutral-700 disabled:opacity-50"
                 :disabled="isSubmitting"
                 autocomplete="current-password"
               />
             </div>
           </div>
 
-          <!-- Opciones extras: Recordar y enlace -->
+          <!-- Opciones adicionales -->
           <div class="flex items-center justify-between text-xs pt-1">
-            <label class="flex items-center space-x-2 cursor-pointer select-none text-slate-400 hover:text-slate-300">
+            <label class="flex items-center space-x-2 cursor-pointer select-none text-neutral-400 hover:text-neutral-300">
               <input
                 type="checkbox"
                 v-model="rememberMe"
-                class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-blue-500/40 focus:ring-offset-slate-900"
+                class="w-3.5 h-3.5 rounded bg-neutral-950 border-neutral-800 text-neutral-200 focus:ring-0 focus:ring-offset-0"
               />
-              <span>Mantener sesión activa</span>
+              <span>Recordar sesión</span>
             </label>
-            <span class="text-slate-500 hover:text-blue-400 cursor-pointer transition-colors">
-              ¿Olvidaste tu contraseña?
+            <span class="text-neutral-500 hover:text-neutral-300 cursor-pointer transition-colors">
+              Recuperar contraseña
             </span>
           </div>
 
-          <!-- Botón de Ingreso Principal -->
+          <!-- Botón de Entrada: Minimalista y Elegante en contraste monocromático -->
           <button
             type="submit"
             :disabled="isSubmitting"
-            class="w-full py-3.5 px-6 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:via-indigo-500 hover:to-blue-600 focus:ring-4 focus:ring-blue-500/30 shadow-xl shadow-blue-600/25 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed group active:scale-[0.99]"
+            class="w-full mt-2 py-2.5 px-4 rounded-lg font-medium text-sm text-neutral-950 bg-neutral-100 hover:bg-white focus:outline-none focus:ring-2 focus:ring-neutral-400 transition-all duration-150 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.99]"
           >
-            <i v-if="isSubmitting" class="pi pi-spin pi-spinner text-base"></i>
-            <span v-else class="flex items-center space-x-2">
-              <span>Acceder al Panel</span>
-              <i class="pi pi-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+            <i v-if="isSubmitting" class="pi pi-spin pi-spinner text-sm"></i>
+            <span v-else class="flex items-center space-x-1.5">
+              <span>Continuar</span>
+              <i class="pi pi-arrow-right text-xs"></i>
             </span>
           </button>
         </form>
 
-        <!-- Pie de Página del Formulario -->
-        <div class="pt-6 border-t border-slate-800/80 text-center space-y-2">
-          <div class="flex items-center justify-center space-x-2 text-xs text-slate-500">
-            <i class="pi pi-lock text-emerald-400 text-xs"></i>
-            <span>Autenticación segura con cifrado JWT & Bcrypt</span>
-          </div>
+        <!-- Pie del Formulario -->
+        <div class="pt-6 border-t border-neutral-900 text-center">
+          <p class="text-[11px] text-neutral-600">
+            Conexión encriptada vía TLS / Tokens JWT Bearer (HS256)
+          </p>
         </div>
+
       </div>
     </div>
+
   </div>
 </template>
 
@@ -263,18 +259,18 @@ async function handleLogin() {
   width: 100%;
 }
 :deep(.p-password .pi) {
-  color: #94a3b8;
+  color: #737373;
 }
 :deep(.p-password .pi:hover) {
-  color: #f8fafc;
+  color: #d4d4d4;
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 </style>

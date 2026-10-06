@@ -16,122 +16,122 @@ const emit = defineEmits<{
 function getEstadoBadge(estado: string) {
   switch (estado) {
     case 'Pendiente':
-      return { label: 'Pendiente', classes: 'bg-amber-500/15 text-amber-400 border-amber-500/30' }
+      return { label: 'Pendiente', classes: 'bg-neutral-900 text-amber-400 border-neutral-800' }
     case 'En Proceso':
-      return { label: 'En Proceso', classes: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30 font-bold animate-pulse' }
+      return { label: 'En Proceso', classes: 'bg-neutral-900 text-neutral-200 border-neutral-700 font-medium' }
     case 'Finalizado':
-      return { label: 'Finalizado', classes: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' }
+      return { label: 'Finalizado', classes: 'bg-neutral-900 text-emerald-400 border-neutral-800' }
     default:
-      return { label: estado, classes: 'bg-slate-800 text-slate-400 border-slate-700' }
+      return { label: estado, classes: 'bg-neutral-900 text-neutral-400 border-neutral-800' }
   }
 }
 
 function getPrioridadBadge(prioridad: string) {
   switch (prioridad) {
     case 'Alta':
-      return { label: 'Alta', classes: 'bg-rose-500/15 text-rose-400 border-rose-500/30 font-bold' }
+      return { label: 'Alta', classes: 'bg-red-950/40 text-red-400 border-red-900/50' }
     case 'Media':
-      return { label: 'Media', classes: 'bg-blue-500/15 text-blue-400 border-blue-500/30' }
+      return { label: 'Media', classes: 'bg-neutral-900 text-neutral-300 border-neutral-800' }
     case 'Baja':
-      return { label: 'Baja', classes: 'bg-slate-800 text-slate-400 border-slate-700' }
+      return { label: 'Baja', classes: 'bg-neutral-900 text-neutral-500 border-neutral-800' }
     default:
-      return { label: prioridad, classes: 'bg-slate-800 text-slate-400 border-slate-700' }
+      return { label: prioridad, classes: 'bg-neutral-900 text-neutral-400 border-neutral-800' }
   }
 }
 </script>
 
 <template>
-  <div class="rounded-2xl bg-[#0D1527]/90 border border-slate-800/80 shadow-xl overflow-hidden">
+  <div class="rounded-xl bg-[#0c0c0e] border border-neutral-800 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="border-b border-slate-800 bg-[#090E1A]/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider select-none">
-            <th class="p-3.5 w-16 text-center">ID</th>
-            <th class="p-3.5">Título / Solicitud</th>
-            <th class="p-3.5">Cliente</th>
-            <th class="p-3.5">Agente(s) Asignado(s)</th>
-            <th class="p-3.5">Prioridad</th>
-            <th class="p-3.5">Estado</th>
-            <th class="p-3.5">Fecha / Límite</th>
-            <th class="p-3.5 text-right">Acciones</th>
+          <tr class="border-b border-neutral-800 bg-neutral-950 text-[10px] font-mono font-medium text-neutral-400 uppercase tracking-wider select-none">
+            <th class="p-3 w-14 text-center">ID</th>
+            <th class="p-3">Título / Requerimiento</th>
+            <th class="p-3">Cliente</th>
+            <th class="p-3">Agente(s)</th>
+            <th class="p-3">Prioridad</th>
+            <th class="p-3">Estado</th>
+            <th class="p-3">Fecha / Límite</th>
+            <th class="p-3 text-right">Acciones</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-800/60 text-xs text-slate-300">
+        <tbody class="divide-y divide-neutral-900 text-xs text-neutral-300">
           <tr v-if="loading">
-            <td colspan="8" class="p-8 text-center text-slate-500">
-              <i class="pi pi-spin pi-spinner text-2xl text-blue-500 mb-2"></i>
-              <div class="text-xs">Cargando solicitudes...</div>
+            <td colspan="8" class="p-8 text-center text-neutral-500">
+              <i class="pi pi-spin pi-spinner text-xl text-neutral-400 mb-2"></i>
+              <div class="text-xs font-mono">Cargando solicitudes...</div>
             </td>
           </tr>
 
           <tr v-else-if="items.length === 0">
-            <td colspan="8" class="p-12 text-center text-slate-500">
-              <i class="pi pi-inbox text-3xl text-slate-600 mb-2"></i>
-              <div class="text-sm font-semibold text-slate-300">No se encontraron solicitudes</div>
-              <p class="text-xs text-slate-500 mt-1">Prueba cambiando los filtros o crea una nueva solicitud.</p>
+            <td colspan="8" class="p-10 text-center text-neutral-500">
+              <i class="pi pi-inbox text-2xl text-neutral-600 mb-2"></i>
+              <div class="text-xs font-medium text-neutral-300">No se encontraron solicitudes</div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">Prueba cambiando los filtros o crea una nueva solicitud.</p>
             </td>
           </tr>
 
           <tr
             v-for="item in items"
             :key="item.id"
-            class="hover:bg-slate-800/30 transition-colors group"
+            class="hover:bg-neutral-900/40 transition-colors duration-100 group"
           >
             <!-- ID -->
-            <td class="p-3.5 text-center font-mono text-[11px] text-slate-500 font-bold">
+            <td class="p-3 text-center font-mono text-[11px] text-neutral-500">
               #{{ item.id }}
             </td>
 
             <!-- Título y descripción -->
-            <td class="p-3.5 max-w-xs">
+            <td class="p-3 max-w-xs">
               <div
                 @click="emit('view-detail', item)"
-                class="font-semibold text-white group-hover:text-blue-400 cursor-pointer transition-colors truncate"
+                class="font-medium text-white group-hover:text-neutral-200 cursor-pointer transition-colors truncate text-xs"
                 :title="item.titulo"
               >
                 {{ item.titulo }}
               </div>
-              <div class="text-[11px] text-slate-500 truncate mt-0.5" :title="item.descripcion_texto">
+              <div class="text-[11px] text-neutral-500 truncate mt-0.5" :title="item.descripcion_texto">
                 {{ item.descripcion_texto || 'Sin descripción adicional' }}
               </div>
               <!-- Indicador de notas adjuntas -->
-              <div v-if="item.total_notas > 0" class="inline-flex items-center space-x-1 text-[10px] text-blue-400/80 mt-1">
+              <div v-if="item.total_notas > 0" class="inline-flex items-center space-x-1 text-[10px] font-mono text-neutral-400 mt-1">
                 <i class="pi pi-comments text-[9px]"></i>
                 <span>{{ item.total_notas }} {{ item.total_notas === 1 ? 'nota' : 'notas' }}</span>
               </div>
             </td>
 
             <!-- Cliente -->
-            <td class="p-3.5 whitespace-nowrap">
-              <div class="font-medium text-slate-200">
+            <td class="p-3 whitespace-nowrap">
+              <div class="font-medium text-neutral-200 text-xs">
                 {{ item.cliente_nombre || item.cliente_empresa || 'Cliente General' }}
               </div>
-              <div v-if="item.cliente_empresa && item.cliente_nombre" class="text-[10px] text-slate-500">
+              <div v-if="item.cliente_empresa && item.cliente_nombre" class="text-[10px] text-neutral-500">
                 {{ item.cliente_empresa }}
               </div>
             </td>
 
             <!-- Agentes -->
-            <td class="p-3.5">
+            <td class="p-3">
               <div v-if="item.agentes && item.agentes.length > 0" class="flex flex-wrap gap-1">
                 <span
                   v-for="ag in item.agentes"
                   :key="ag.id"
-                  class="px-2 py-0.5 rounded-md bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[10px] font-medium"
+                  class="px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 text-[10px] font-mono"
                 >
                   {{ ag.nombre }}
                 </span>
               </div>
-              <span v-else class="text-[11px] text-slate-500 italic">
+              <span v-else class="text-[10px] font-mono text-neutral-600 italic">
                 Sin asignar
               </span>
             </td>
 
             <!-- Prioridad -->
-            <td class="p-3.5 whitespace-nowrap">
+            <td class="p-3 whitespace-nowrap">
               <span
                 :class="[
-                  'px-2 py-0.5 rounded-full text-[10px] border font-semibold inline-block',
+                  'px-2 py-0.5 rounded text-[10px] font-mono border inline-block',
                   getPrioridadBadge(item.prioridad).classes
                 ]"
               >
@@ -140,40 +140,40 @@ function getPrioridadBadge(prioridad: string) {
             </td>
 
             <!-- Estado con Selector Rápido -->
-            <td class="p-3.5 whitespace-nowrap">
+            <td class="p-3 whitespace-nowrap">
               <select
                 :value="item.estado"
                 @change="emit('update-status', item, ($event.target as HTMLSelectElement).value)"
                 :class="[
-                  'px-2.5 py-1 rounded-lg text-[11px] font-semibold border cursor-pointer focus:outline-none transition-colors',
+                  'px-2 py-0.5 rounded text-[10px] font-mono border cursor-pointer focus:outline-none transition-colors',
                   getEstadoBadge(item.estado).classes,
-                  'bg-[#0D1527]'
+                  'bg-neutral-950'
                 ]"
               >
-                <option value="Pendiente" class="bg-slate-900 text-amber-400 font-semibold">Pendiente</option>
-                <option value="En Proceso" class="bg-slate-900 text-cyan-400 font-semibold">En Proceso</option>
-                <option value="Finalizado" class="bg-slate-900 text-emerald-400 font-semibold">Finalizado</option>
+                <option value="Pendiente" class="bg-neutral-950 text-amber-400">Pendiente</option>
+                <option value="En Proceso" class="bg-neutral-950 text-white">En Proceso</option>
+                <option value="Finalizado" class="bg-neutral-950 text-emerald-400">Finalizado</option>
               </select>
             </td>
 
             <!-- Fechas -->
-            <td class="p-3.5 whitespace-nowrap">
-              <div class="text-[11px] text-slate-300">
+            <td class="p-3 whitespace-nowrap font-mono">
+              <div class="text-[11px] text-neutral-400">
                 {{ item.fecha_solicitud || '---' }}
               </div>
-              <div v-if="item.fecha_lim" class="text-[10px] text-amber-400 mt-0.5 flex items-center space-x-1">
-                <i class="pi pi-calendar text-[9px]"></i>
+              <div v-if="item.fecha_lim" class="text-[10px] text-neutral-500 mt-0.5 flex items-center space-x-1">
+                <i class="pi pi-calendar text-[8px]"></i>
                 <span>Límite: {{ item.fecha_lim }}</span>
               </div>
             </td>
 
             <!-- Acciones -->
-            <td class="p-3.5 text-right whitespace-nowrap">
-              <div class="flex items-center justify-end space-x-1.5">
+            <td class="p-3 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end space-x-1">
                 <!-- Ver Detalle / Notas -->
                 <button
                   @click="emit('view-detail', item)"
-                  class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-slate-700 transition-colors"
+                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
                   title="Ver detalle y comentarios"
                 >
                   <i class="pi pi-eye text-xs"></i>
@@ -182,7 +182,7 @@ function getPrioridadBadge(prioridad: string) {
                 <!-- Editar -->
                 <button
                   @click="emit('edit', item)"
-                  class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-blue-400 hover:border-slate-700 transition-colors"
+                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
                   title="Editar solicitud"
                 >
                   <i class="pi pi-pencil text-xs"></i>
@@ -191,7 +191,7 @@ function getPrioridadBadge(prioridad: string) {
                 <!-- Eliminar -->
                 <button
                   @click="emit('delete', item)"
-                  class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 hover:border-slate-700 transition-colors"
+                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-red-400 hover:bg-neutral-800 transition-colors"
                   title="Eliminar solicitud"
                 >
                   <i class="pi pi-trash text-xs"></i>

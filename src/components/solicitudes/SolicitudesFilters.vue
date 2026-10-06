@@ -29,7 +29,7 @@ const estados = [
 ]
 
 const prioridades = [
-  { label: 'Todas las Prioridades', value: 'todos' },
+  { label: 'Todas', value: 'todos' },
   { label: 'Alta', value: 'Alta' },
   { label: 'Media', value: 'Media' },
   { label: 'Baja', value: 'Baja' },
@@ -37,51 +37,51 @@ const prioridades = [
 </script>
 
 <template>
-  <div class="space-y-3.5">
-    <!-- Barra Superior: Búsqueda, Filtro Agente y Botón Nuevo -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+  <div class="space-y-3">
+    <!-- Barra Superior: Búsqueda, Filtros y Botón Nuevo -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
       <!-- Input de búsqueda -->
       <div class="relative flex-1 max-w-md">
-        <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+        <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
         <input
           :value="search"
           @input="emit('update:search', ($event.target as HTMLInputElement).value)"
           type="text"
-          placeholder="Buscar solicitud por título, descripción o cliente..."
-          class="w-full bg-[#0D1527] border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+          placeholder="Buscar por título, descripción, cliente..."
+          class="w-full bg-neutral-950 border border-neutral-800 rounded-lg pl-8 pr-7 py-1.5 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
         />
         <button
           v-if="search"
           @click="emit('update:search', '')"
-          class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+          class="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
         >
           <i class="pi pi-times text-xs"></i>
         </button>
       </div>
 
       <!-- Controles y Botones -->
-      <div class="flex flex-wrap items-center gap-2.5">
+      <div class="flex flex-wrap items-center gap-2">
         <!-- Toggle Solo Mis Asignadas (Para Agentes) -->
         <button
           v-if="isAgente"
           @click="emit('update:soloMias', !soloMias)"
           :class="[
-            'px-3 py-2 rounded-xl border text-xs font-semibold flex items-center space-x-2 transition-all',
+            'px-3 py-1.5 rounded-lg border text-xs font-medium flex items-center space-x-1.5 transition-all',
             soloMias
-              ? 'bg-blue-600/20 border-blue-500 text-blue-400 font-bold'
-              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+              ? 'bg-neutral-800 border-neutral-700 text-white'
+              : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white'
           ]"
         >
-          <i :class="['pi', soloMias ? 'pi-check-circle text-blue-400' : 'pi-circle text-slate-500', 'text-xs']"></i>
+          <i :class="['pi', soloMias ? 'pi-check-circle text-neutral-200' : 'pi-circle text-neutral-600', 'text-xs']"></i>
           <span>Solo Mis Asignadas</span>
         </button>
 
-        <!-- Selector de Agente (Para Admins o cuando no está en solo mías) -->
+        <!-- Selector de Agente -->
         <select
           v-if="!soloMias"
           :value="selectedAgenteId ?? ''"
           @change="emit('update:selectedAgenteId', ($event.target as HTMLSelectElement).value ? Number(($event.target as HTMLSelectElement).value) : null)"
-          class="bg-[#0D1527] border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+          class="bg-neutral-950 border border-neutral-800 rounded-lg px-2.5 py-1.5 text-xs text-neutral-300 focus:outline-none focus:border-neutral-500"
         >
           <option value="">Todos los Agentes</option>
           <option v-for="a in agentes" :key="a.id" :value="a.id">
@@ -92,16 +92,16 @@ const prioridades = [
         <!-- Recargar -->
         <button
           @click="emit('refresh')"
-          class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-colors"
+          class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors"
           title="Actualizar lista"
         >
           <i class="pi pi-refresh text-xs"></i>
         </button>
 
-        <!-- Botón Nueva Solicitud -->
+        <!-- Botón Nueva Solicitud (Sleek Monocromático) -->
         <button
           @click="emit('new-solicitud')"
-          class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center space-x-2 transition-all transform active:scale-95"
+          class="px-3.5 py-1.5 rounded-lg bg-neutral-100 hover:bg-white text-neutral-950 text-xs font-medium flex items-center space-x-1.5 transition-colors active:scale-98"
         >
           <i class="pi pi-plus text-xs"></i>
           <span>Nueva Solicitud</span>
@@ -110,18 +110,18 @@ const prioridades = [
     </div>
 
     <!-- Pestañas de Estado y Prioridad -->
-    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+    <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-neutral-900">
       <!-- Tabs de Estado -->
-      <div class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-[#090E1A] border border-slate-800/80">
+      <div class="flex flex-wrap items-center gap-1 p-0.5 rounded-lg bg-neutral-950 border border-neutral-800">
         <button
           v-for="e in estados"
           :key="e.value"
           @click="emit('update:selectedEstado', e.value)"
           :class="[
-            'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+            'px-2.5 py-1 rounded text-xs transition-colors',
             selectedEstado === e.value
-              ? 'bg-blue-600 text-white font-semibold shadow-sm'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              ? 'bg-neutral-800 text-white font-medium'
+              : 'text-neutral-400 hover:text-white'
           ]"
         >
           {{ e.label }}
@@ -129,17 +129,17 @@ const prioridades = [
       </div>
 
       <!-- Selector / Pills de Prioridad -->
-      <div class="flex items-center space-x-1.5">
-        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mr-1">Prioridad:</span>
+      <div class="flex items-center space-x-1">
+        <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mr-1">Prioridad:</span>
         <button
           v-for="p in prioridades"
           :key="p.value"
           @click="emit('update:selectedPrioridad', p.value)"
           :class="[
-            'px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-colors',
+            'px-2 py-0.5 rounded text-[10px] font-mono border transition-colors',
             selectedPrioridad === p.value
-              ? 'bg-slate-800 text-white border-slate-600 font-bold'
-              : 'bg-[#0D1527] text-slate-400 border-slate-800/80 hover:border-slate-700 hover:text-slate-200'
+              ? 'bg-neutral-800 text-white border-neutral-700 font-medium'
+              : 'bg-neutral-950 text-neutral-400 border-neutral-800 hover:border-neutral-700 hover:text-white'
           ]"
         >
           {{ p.label }}

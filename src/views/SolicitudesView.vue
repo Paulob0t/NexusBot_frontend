@@ -43,7 +43,7 @@ const search = ref('')
 const selectedEstado = ref('todos')
 const selectedPrioridad = ref('todos')
 const selectedAgenteId = ref<number | null>(null)
-const soloMias = ref(isAgente.value) // Por defecto activo para agentes
+const soloMias = ref(isAgente.value)
 
 // Paginación
 const page = ref(1)
@@ -140,7 +140,7 @@ async function handleUpdateStatus(item: SolicitudItem, newStatus: string) {
   }
 }
 
-// Reasignar Agentes desde modal detalle
+// Reasignar Agentes
 async function handleAssignAgents(agentIds: number[]) {
   if (!detailModal.solicitud) return
   try {
@@ -215,44 +215,44 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-screen bg-[#070B14] text-slate-100 overflow-hidden font-sans">
+  <div class="flex h-screen bg-[#09090b] text-neutral-200 overflow-hidden font-sans selection:bg-neutral-700 selection:text-white">
     <!-- Sidebar -->
     <AppSidebar :isMobileOpen="isMobileOpen" @close-mobile="isMobileOpen = false" />
 
     <!-- Área Principal -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#09090b]">
       <!-- Barra Superior -->
-      <header class="h-16 px-4 md:px-8 border-b border-slate-800/80 bg-[#0A0F1D]/90 flex items-center justify-between shrink-0">
+      <header class="h-16 px-4 md:px-8 border-b border-neutral-900 bg-[#09090b]/90 backdrop-blur-md flex items-center justify-between shrink-0">
         <div class="flex items-center space-x-3">
           <button
             @click="isMobileOpen = true"
-            class="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
+            class="lg:hidden p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 focus:outline-none"
           >
-            <i class="pi pi-bars text-lg"></i>
+            <i class="pi pi-bars text-sm"></i>
           </button>
           <div>
-            <div class="flex items-center space-x-2 text-xs text-slate-400">
+            <div class="flex items-center space-x-2 text-xs text-neutral-500">
               <span>Operaciones</span>
-              <i class="pi pi-chevron-right text-[10px]"></i>
-              <span class="text-blue-400 font-semibold">{{ isAgente ? 'Mis Solicitudes de Agente' : 'Gestión de Solicitudes' }}</span>
+              <i class="pi pi-chevron-right text-[9px]"></i>
+              <span class="text-neutral-300 font-mono">{{ isAgente ? 'Mis Solicitudes' : 'Solicitudes & Tickets' }}</span>
             </div>
-            <h1 class="text-lg font-extrabold text-white tracking-tight">
-              {{ isAgente ? 'Panel de Tickets & Solicitudes' : 'Centro de Solicitudes' }}
+            <h1 class="text-base font-semibold text-white tracking-tight">
+              {{ isAgente ? 'Tickets Asignados' : 'Mesa de Solicitudes & Soporte' }}
             </h1>
           </div>
         </div>
 
-        <!-- Perfil / Rol Badge -->
+        <!-- Rol Badge Monocromático -->
         <div class="flex items-center space-x-2">
-          <div class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
-            <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-            <span>{{ isAgente ? 'Modo Agente / Desarrollador' : 'Modo Administrador' }}</span>
+          <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
+            <span>{{ isAgente ? 'Agente' : 'Administrador' }}</span>
           </div>
         </div>
       </header>
 
       <!-- Contenedor Principal con Scroll -->
-      <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 custom-scrollbar">
+      <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5 custom-scrollbar">
         <!-- Tarjetas KPIs -->
         <SolicitudesKpis :kpis="kpis" :loading="loading" :isAgente="isAgente" />
 

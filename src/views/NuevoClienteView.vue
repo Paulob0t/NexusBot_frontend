@@ -115,7 +115,7 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-[#080C14] text-slate-100 selection:bg-cyan-600 selection:text-white flex overflow-hidden">
+  <div class="h-screen w-screen bg-[#09090b] text-neutral-100 selection:bg-neutral-800 selection:text-white flex overflow-hidden">
     <!-- MENÚ LATERAL -->
     <AppSidebar
       :is-mobile-open="isMobileSidebarOpen"
@@ -125,33 +125,33 @@ function handleLogout() {
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16">
       <!-- HEADER SUPERIOR -->
-      <header class="sticky top-0 z-30 bg-[#0A0F1D]/80 backdrop-blur-md border-b border-slate-800/80 h-16 shrink-0">
+      <header class="sticky top-0 z-30 bg-[#09090b]/90 backdrop-blur-md border-b border-neutral-800/80 h-16 shrink-0">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <button
               @click="isMobileSidebarOpen = true"
-              class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              class="lg:hidden p-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
             >
-              <i class="pi pi-bars text-base"></i>
+              <i class="pi pi-bars text-sm"></i>
             </button>
             <button
               @click="router.push('/clientes')"
-              class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+              class="p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 transition-colors"
               title="Volver a lista de clientes"
             >
               <i class="pi pi-arrow-left text-xs"></i>
             </button>
             <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-white">Nuevo Cliente</span>
-              <span class="text-slate-600 hidden sm:inline">•</span>
-              <span class="text-xs text-emerald-400 font-semibold uppercase tracking-wider hidden sm:inline">Formulario de Registro</span>
+              <span class="text-sm font-semibold text-neutral-100">Nuevo Cliente</span>
+              <span class="text-neutral-700 hidden sm:inline">•</span>
+              <span class="text-xs text-neutral-400 font-normal hidden sm:inline">Formulario de Registro</span>
             </div>
           </div>
 
           <div class="flex items-center space-x-3">
             <button
               @click="handleLogout"
-              class="p-2 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/60 transition-colors"
+              class="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition-colors"
               title="Cerrar sesión"
             >
               <i class="pi pi-sign-out text-sm"></i>
@@ -190,22 +190,22 @@ function handleLogout() {
           />
 
           <!-- BOTONES DE ACCIÓN -->
-          <div class="flex items-center justify-end space-x-4 pt-2">
+          <div class="flex items-center justify-end space-x-3 pt-2">
             <button
               type="button"
               @click="router.push('/clientes')"
-              class="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors"
+              class="px-4 py-2.5 rounded-lg bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-neutral-300 text-xs font-medium transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
               :disabled="isSaving"
-              class="px-8 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white text-xs font-extrabold shadow-xl shadow-emerald-500/20 flex items-center space-x-2 transition-all disabled:opacity-50 active:scale-95"
+              class="px-6 py-2.5 rounded-lg bg-white hover:bg-neutral-200 text-black text-xs font-semibold flex items-center space-x-2 transition-colors disabled:opacity-50"
             >
               <i v-if="isSaving" class="pi pi-spin pi-spinner text-xs"></i>
               <i v-else class="pi pi-check text-xs"></i>
-              <span>{{ isSaving ? 'Registrando Cliente...' : 'Registrar Cliente' }}</span>
+              <span>{{ isSaving ? 'Registrando...' : 'Registrar Cliente' }}</span>
             </button>
           </div>
         </form>

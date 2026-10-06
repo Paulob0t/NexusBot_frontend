@@ -17,106 +17,79 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-    :class="viewMode === 'table' ? 'md:hidden' : ''"
+    :class="[
+      'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5',
+      viewMode === 'table' ? 'md:hidden' : ''
+    ]"
   >
     <div
       v-for="item in clientes"
-      :key="`card-${item.id}`"
-      class="p-5 rounded-3xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700 transition-all space-y-4 shadow-xl flex flex-col justify-between"
+      :key="item.id"
+      class="p-4 rounded-xl bg-[#0c0c0e] border border-neutral-800 space-y-3.5 flex flex-col justify-between transition-colors hover:border-neutral-700"
     >
       <div>
-        <!-- Header Tarjeta -->
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center space-x-3 min-w-0">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600/30 to-indigo-600/30 border border-blue-500/30 flex items-center justify-center font-bold text-sm text-blue-400 shrink-0">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center font-medium text-xs text-neutral-300 font-mono">
               {{ getInitials(item.empresa) }}
             </div>
             <div class="min-w-0">
-              <h4 class="font-bold text-white text-sm truncate">{{ item.empresa }}</h4>
-              <p class="text-xs text-slate-400 truncate">{{ item.nombre_contacto }}</p>
+              <h4 class="font-medium text-white text-xs truncate max-w-[170px]">{{ item.empresa }}</h4>
+              <span class="text-[10px] text-neutral-500 font-mono">#{{ item.id }}</span>
             </div>
           </div>
-
-          <!-- Estado Cobranza Badge -->
-          <div>
-            <span
-              v-if="item.estado_pago === 'al_dia'"
-              class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-950 text-emerald-300 border border-emerald-500/30"
-            >
-              Al día
-            </span>
-            <span
-              v-else-if="item.estado_pago === 'pendiente'"
-              class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-500/40 animate-pulse"
-            >
-              {{ item.total_pagos_pendientes }} Pend.
-            </span>
-            <span
-              v-else
-              class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-950 text-slate-500 border border-slate-800"
-            >
-              Sin serv.
-            </span>
-          </div>
+          <span
+            v-if="item.total_pagos_pendientes > 0"
+            class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-red-950/40 text-red-400 border border-red-900/50"
+          >
+            {{ item.total_pagos_pendientes }} Pend.
+          </span>
+          <span
+            v-else
+            class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-neutral-900 text-neutral-400 border border-neutral-800"
+          >
+            Al día
+          </span>
         </div>
 
-        <!-- Contacto -->
-        <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5 text-xs text-slate-300">
-          <div v-if="item.correo" class="flex items-center space-x-2 truncate">
-            <i class="pi pi-envelope text-[11px] text-slate-500"></i>
-            <a :href="`mailto:${item.correo}`" class="hover:text-blue-400 transition-colors truncate">
-              {{ item.correo }}
-            </a>
+        <div class="mt-3 pt-3 border-t border-neutral-900 space-y-1.5 text-xs text-neutral-400">
+          <div class="flex items-center justify-between">
+            <span class="text-neutral-500 text-[11px]">Contacto:</span>
+            <span class="text-neutral-200 font-medium truncate max-w-[140px] text-[11px]">{{ item.nombre_contacto }}</span>
           </div>
-          <div v-if="item.telefono" class="flex items-center space-x-2">
-            <i class="pi pi-phone text-[11px] text-slate-500"></i>
-            <span>{{ item.telefono }}</span>
-          </div>
-        </div>
-
-        <!-- Badges de Infraestructura -->
-        <div class="mt-4 flex items-center space-x-2 text-xs">
-          <div class="flex-1 p-2 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between">
-            <span class="text-slate-400 text-[11px]">Dominios</span>
-            <span class="font-bold text-blue-400">{{ item.total_dominios }}</span>
-          </div>
-          <div class="flex-1 p-2 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between">
-            <span class="text-slate-400 text-[11px]">Hosting</span>
-            <span class="font-bold text-emerald-400">{{ item.total_hostings }}</span>
+          <div class="flex items-center justify-between">
+            <span class="text-neutral-500 text-[11px]">Servicios:</span>
+            <span class="font-mono text-neutral-300 text-[11px]">
+              {{ item.total_dominios }} dom • {{ item.total_hostings }} host
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Botones de Acción Móvil -->
-      <div class="pt-3 border-t border-slate-800/80 flex items-center space-x-2">
-        <a
-          v-if="item.telefono"
-          :href="formatWhatsAppLink(item.telefono)"
-          target="_blank"
-          rel="noopener"
-          class="flex-1 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center justify-center space-x-1.5 transition-colors"
-        >
-          <i class="pi pi-whatsapp text-xs"></i>
-          <span>WhatsApp</span>
-        </a>
-
+      <div class="flex items-center space-x-1.5 pt-2 border-t border-neutral-900">
         <button
           @click="emit('view-detail', item.id)"
-          class="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white border border-slate-700/60 text-xs font-semibold flex items-center justify-center space-x-1.5 transition-colors"
+          class="flex-1 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-medium text-neutral-300 hover:text-white transition-colors text-center"
         >
-          <i class="pi pi-eye text-xs"></i>
-          <span>Detalles</span>
+          Detalle
         </button>
-
         <button
           v-if="isSuperAdmin"
           @click="emit('edit', item)"
-          class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors"
+          class="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
           title="Editar"
         >
           <i class="pi pi-pencil text-xs"></i>
         </button>
+        <a
+          v-if="item.telefono"
+          :href="formatWhatsAppLink(item.telefono)"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
+        >
+          <i class="pi pi-whatsapp text-xs"></i>
+        </a>
       </div>
     </div>
   </div>

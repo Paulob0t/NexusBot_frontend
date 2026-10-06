@@ -1,0 +1,30 @@
+# =============================================================================
+# GITIGNORE - NEXUSBOT FRONTEND (Vue 3 + Vite)
+# =============================================================================
+
+# --- NODE Y DEPENDENCIAS ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# --- CACHES Y LOGS ---
+.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# --- VARIABLES DE ENTORNO ---
+.env
+.env.*
+!.env.example
+
+# --- SISTEMA OPERATIVO Y EDITORES ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

@@ -114,7 +114,7 @@ function handleLogout() {
       <div class="h-16 px-4 border-b border-neutral-900 flex items-center justify-between shrink-0 bg-[#09090b]">
         <div
           class="flex items-center space-x-3 cursor-pointer overflow-hidden group"
-          @click="handleNavigation('/dashboard')"
+          @click="handleNavigation(isClient ? '/portal' : '/dashboard')"
         >
           <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center shrink-0">
             <i class="pi pi-shield text-sm text-neutral-200"></i>
@@ -148,8 +148,8 @@ function handleLogout() {
 
       <!-- Scroll de Módulos -->
       <div class="flex-1 overflow-y-auto px-2.5 py-3 space-y-3 custom-scrollbar overflow-x-hidden">
-        <!-- Dashboard Principal -->
-        <div>
+        <!-- Dashboard Principal (Solo Admin y Staff) -->
+        <div v-if="!isClient">
           <button
             @click="handleNavigation('/dashboard')"
             :class="[

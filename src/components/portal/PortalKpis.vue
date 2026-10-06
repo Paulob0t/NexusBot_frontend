@@ -17,85 +17,79 @@ const router = useRouter()
     <!-- 1. Sitios Web -->
     <div
       @click="router.push('/dominios')"
-      class="group cursor-pointer rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/40 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10"
+      class="group cursor-pointer rounded-xl bg-[#0c0c0e] hover:bg-[#121215] border border-neutral-800 hover:border-neutral-700 p-4 sm:p-5 transition-colors"
     >
       <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold text-slate-400">Sitios Web</span>
-        <div class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <i class="pi pi-globe text-base"></i>
+        <span class="text-xs font-medium text-neutral-400">Sitios Web</span>
+        <div class="w-8 h-8 rounded-lg bg-neutral-900 text-neutral-400 border border-neutral-800 flex items-center justify-center">
+          <i class="pi pi-globe text-xs"></i>
         </div>
       </div>
       <div class="mt-3 flex items-baseline gap-2">
-        <span class="text-2xl lg:text-3xl font-black text-white tracking-tight">{{ totalSitios }}</span>
-        <span class="text-xs text-slate-400">activos</span>
+        <span class="text-xl sm:text-2xl font-bold text-white font-mono">{{ totalSitios }}</span>
+        <span class="text-xs text-neutral-500 font-mono">activos</span>
       </div>
     </div>
 
     <!-- 2. Pagos Pendientes -->
     <div
       @click="router.push('/pagos')"
-      :class="[
-        'group cursor-pointer rounded-2xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg',
-        totalPendientes > 0
-          ? 'bg-amber-950/20 hover:bg-amber-950/30 border-amber-500/30 hover:border-amber-500/50 hover:shadow-amber-500/10'
-          : 'bg-slate-900/80 hover:bg-slate-900 border-slate-800 hover:border-emerald-500/40 hover:shadow-emerald-500/10'
-      ]"
+      class="group cursor-pointer rounded-xl bg-[#0c0c0e] hover:bg-[#121215] border p-4 sm:p-5 transition-colors"
+      :class="totalPendientes > 0 ? 'border-amber-900/50 hover:border-amber-700/60' : 'border-neutral-800 hover:border-neutral-700'"
     >
       <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold" :class="totalPendientes > 0 ? 'text-amber-300' : 'text-slate-400'">
+        <span class="text-xs font-medium" :class="totalPendientes > 0 ? 'text-amber-400' : 'text-neutral-400'">
           Pagos Pendientes
         </span>
         <div
-          :class="[
-            'w-9 h-9 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform',
-            totalPendientes > 0 ? 'bg-amber-500/20 text-amber-400' : 'bg-emerald-500/10 text-emerald-400'
-          ]"
+          class="w-8 h-8 rounded-lg flex items-center justify-center border"
+          :class="totalPendientes > 0 ? 'bg-amber-950/40 text-amber-400 border-amber-900/50' : 'bg-neutral-900 text-neutral-400 border-neutral-800'"
         >
-          <i :class="['pi', totalPendientes > 0 ? 'pi-exclamation-circle' : 'pi-check-circle', 'text-base']"></i>
+          <i :class="['pi', totalPendientes > 0 ? 'pi-exclamation-circle' : 'pi-check', 'text-xs']"></i>
         </div>
       </div>
       <div class="mt-3 flex items-baseline gap-2">
         <span
-          class="text-2xl lg:text-3xl font-black tracking-tight"
-          :class="totalPendientes > 0 ? 'text-amber-400' : 'text-emerald-400'"
+          class="text-xl sm:text-2xl font-bold font-mono"
+          :class="totalPendientes > 0 ? 'text-amber-400' : 'text-neutral-200'"
         >
           {{ totalPendientes }}
         </span>
-        <span class="text-xs text-slate-400">por liquidar</span>
+        <span class="text-xs text-neutral-500 font-mono">por liquidar</span>
       </div>
     </div>
 
     <!-- 3. Soporte / Tickets -->
     <div
       @click="router.push('/solicitudes')"
-      class="group cursor-pointer rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-purple-500/40 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/10"
+      class="group cursor-pointer rounded-xl bg-[#0c0c0e] hover:bg-[#121215] border border-neutral-800 hover:border-neutral-700 p-4 sm:p-5 transition-colors"
     >
       <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold text-slate-400">Tickets de Soporte</span>
-        <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <i class="pi pi-ticket text-base"></i>
+        <span class="text-xs font-medium text-neutral-400">Tickets de Soporte</span>
+        <div class="w-8 h-8 rounded-lg bg-neutral-900 text-neutral-400 border border-neutral-800 flex items-center justify-center">
+          <i class="pi pi-ticket text-xs"></i>
         </div>
       </div>
       <div class="mt-3 flex items-baseline gap-2">
-        <span class="text-2xl lg:text-3xl font-black text-white tracking-tight">{{ totalTicketsAbiertos }}</span>
-        <span class="text-xs text-slate-400">en atención</span>
+        <span class="text-xl sm:text-2xl font-bold text-white font-mono">{{ totalTicketsAbiertos }}</span>
+        <span class="text-xs text-neutral-500 font-mono">en atención</span>
       </div>
     </div>
 
     <!-- 4. Hosting y Dominios -->
     <div
       @click="router.push('/hostings')"
-      class="group cursor-pointer rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cyan-500/10"
+      class="group cursor-pointer rounded-xl bg-[#0c0c0e] hover:bg-[#121215] border border-neutral-800 hover:border-neutral-700 p-4 sm:p-5 transition-colors"
     >
       <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold text-slate-400">Servicios Hosting</span>
-        <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <i class="pi pi-server text-base"></i>
+        <span class="text-xs font-medium text-neutral-400">Servicios Hosting</span>
+        <div class="w-8 h-8 rounded-lg bg-neutral-900 text-neutral-400 border border-neutral-800 flex items-center justify-center">
+          <i class="pi pi-server text-xs"></i>
         </div>
       </div>
       <div class="mt-3 flex items-baseline gap-2">
-        <span class="text-2xl lg:text-3xl font-black text-white tracking-tight">{{ totalHostings }}</span>
-        <span class="text-xs text-slate-400">planes activos</span>
+        <span class="text-xl sm:text-2xl font-bold text-white font-mono">{{ totalHostings }}</span>
+        <span class="text-xs text-neutral-500 font-mono">planes activos</span>
       </div>
     </div>
   </div>

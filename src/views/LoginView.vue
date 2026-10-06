@@ -2,7 +2,6 @@
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import Password from 'primevue/password'
 
 const router = useRouter()
 const route = useRoute()
@@ -14,6 +13,7 @@ const credentials = reactive({
 })
 
 const rememberMe = ref(true)
+const showPassword = ref(false)
 const errorMessage = ref('')
 const isSubmitting = ref(false)
 
@@ -107,8 +107,8 @@ async function handleLogin() {
             <i class="pi pi-server text-sm"></i>
           </div>
           <div class="text-xs">
-            <div class="font-medium text-neutral-200">Base de Datos MariaDB / MySQL</div>
-            <div class="text-neutral-500">Conexión activa con sincronización atómica.</div>
+            <div class="font-medium text-neutral-200">Base de Datos PostgreSQL</div>
+            <div class="text-neutral-500">Conexión activa con contenedor local en Podman.</div>
           </div>
         </div>
       </div>
@@ -187,7 +187,7 @@ async function handleLogin() {
             </div>
           </div>
 
-          <!-- Campo: Contraseña -->
+          <!-- Campo: Contraseña (Personalizado y 100% integrado al tema oscuro) -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
               <label for="contrasena" class="block text-xs font-medium text-neutral-400">
@@ -195,17 +195,26 @@ async function handleLogin() {
               </label>
             </div>
             <div class="relative">
-              <Password
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-500">
+                <i class="pi pi-lock text-xs"></i>
+              </span>
+              <input
                 id="contrasena"
                 v-model="credentials.contrasena"
+                :type="showPassword ? 'text' : 'password'"
                 placeholder="••••••••••••"
-                :feedback="false"
-                toggleMask
-                class="w-full"
-                inputClass="w-full pl-3.5 pr-10 py-2.5 bg-neutral-950 text-white placeholder-neutral-600 rounded-lg border border-neutral-800 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/20 text-sm transition duration-150 outline-none hover:border-neutral-700 disabled:opacity-50"
                 :disabled="isSubmitting"
                 autocomplete="current-password"
+                class="w-full pl-9 pr-10 py-2.5 bg-neutral-950 text-white placeholder-neutral-600 rounded-lg border border-neutral-800 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/20 text-sm transition duration-150 outline-none hover:border-neutral-700 disabled:opacity-50"
               />
+              <button
+                type="button"
+                tabindex="-1"
+                @click="showPassword = !showPassword"
+                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-neutral-500 hover:text-neutral-300 transition-colors focus:outline-none"
+              >
+                <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'" class="text-xs"></i>
+              </button>
             </div>
           </div>
 
@@ -252,18 +261,6 @@ async function handleLogin() {
 </template>
 
 <style scoped>
-:deep(.p-password) {
-  width: 100%;
-}
-:deep(.p-password-input) {
-  width: 100%;
-}
-:deep(.p-password .pi) {
-  color: #737373;
-}
-:deep(.p-password .pi:hover) {
-  color: #d4d4d4;
-}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.15s ease, transform 0.15s ease;

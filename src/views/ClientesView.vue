@@ -201,23 +201,25 @@ onMounted(() => {
           </div>
 
           <div class="flex items-center space-x-3">
-            <!-- Switcher Sistema -->
-            <div v-if="isSuperAdmin" class="hidden sm:flex p-1 rounded-lg bg-neutral-950 border border-neutral-800">
+            <!-- Switcher Sistema Suave con Pastilla Deslizante -->
+            <div v-if="isSuperAdmin" class="hidden sm:flex relative p-1 rounded-lg bg-neutral-950 border border-neutral-800 select-none">
+              <!-- Fondo deslizante con transición suave -->
+              <div
+                class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-md bg-neutral-800 border border-neutral-700/40 transition-all duration-300 ease-out pointer-events-none"
+                :class="currentSistema === 'conlineweb' ? 'left-1' : 'left-[calc(50%+3px)]'"
+              ></div>
+
               <button
                 @click="currentSistema = 'conlineweb'"
-                :class="[
-                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
-                  currentSistema === 'conlineweb' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
-                ]"
+                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                :class="currentSistema === 'conlineweb' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-neutral-200'"
               >
                 ConlineWeb
               </button>
               <button
                 @click="currentSistema = 'hostingpro'"
-                :class="[
-                  'px-3 py-1 rounded-md text-xs font-medium transition-all duration-150',
-                  currentSistema === 'hostingpro' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
-                ]"
+                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                :class="currentSistema === 'hostingpro' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-neutral-200'"
               >
                 HostingPro
               </button>
@@ -248,7 +250,7 @@ onMounted(() => {
       <!-- NOTIFICACIONES TOAST -->
       <AppToast />
 
-      <!-- CONTENIDO -->
+      <!-- CONTENIDO CON TRANSICIÓN -->
       <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-5 w-full">
         <!-- 1. KPIS SUPERIORES -->
         <ClienteKpis
@@ -316,7 +318,7 @@ onMounted(() => {
               :key="f.id"
               @click="setFilter(f.id)"
               :class="[
-                'px-2.5 py-1 rounded-lg transition-colors shrink-0 flex items-center space-x-1.5 font-medium text-xs',
+                'px-2.5 py-1 rounded-lg transition-all duration-200 shrink-0 flex items-center space-x-1.5 font-medium text-xs',
                 activeFilter === f.id
                   ? 'bg-neutral-800 text-white font-semibold'
                   : 'bg-neutral-950 text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-900'
@@ -330,78 +332,87 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- 3. ESTADOS DE CARGA Y LISTA -->
-        <div v-if="isLoading" class="py-16 text-center space-y-2">
-          <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
-          <p class="text-xs text-neutral-500 font-mono">Consultando base de clientes...</p>
-        </div>
+        <!-- 3. CONTENEDOR CON TRANSICIÓN SUAVE AL CAMBIAR SISTEMA O FILTRO -->
+        <Transition name="fade-slide" mode="out-in">
+          <div :key="`${currentSistema}-${activeFilter}-${isLoading}`">
+            <!-- Loading -->
+            <div v-if="isLoading" class="py-16 text-center space-y-2">
+              <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
+              <p class="text-xs text-neutral-500 font-mono">Cargando clientes de {{ currentSistema }}...</p>
+            </div>
 
-        <div v-else-if="clientes.length === 0" class="p-10 text-center rounded-xl bg-[#0c0c0e] border border-neutral-800 space-y-2">
-          <i class="pi pi-inbox text-3xl text-neutral-600"></i>
-          <h3 class="text-sm font-semibold text-white">No se encontraron clientes</h3>
-          <button
-            @click="clearSearch(); setFilter('activos')"
-            class="mt-2 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-medium text-white transition-colors"
-          >
-            Restablecer Filtros
-          </button>
-        </div>
-
-        <template v-else>
-          <!-- 4. TABLA DESKTOP -->
-          <ClienteTable
-            v-if="viewMode === 'table'"
-            :clientes="clientes"
-            :is-super-admin="isSuperAdmin"
-            :get-initials="getInitials"
-            :format-whats-app-link="formatWhatsAppLink"
-            @view-detail="openDetail"
-            @edit="openEdit"
-            @delete="removeCliente"
-          />
-
-          <!-- 5. GRID TARJETAS MOBILE -->
-          <ClienteCardGrid
-            :clientes="clientes"
-            :view-mode="viewMode"
-            :is-super-admin="isSuperAdmin"
-            :get-initials="getInitials"
-            :format-whats-app-link="formatWhatsAppLink"
-            @view-detail="openDetail"
-            @edit="openEdit"
-          />
-
-          <!-- 6. PAGINACIÓN -->
-          <div v-if="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-neutral-900">
-            <span class="text-xs text-neutral-500 font-mono">
-              Página <strong class="text-neutral-200">{{ currentPage }}</strong> de <strong class="text-neutral-200">{{ totalPages }}</strong>
-            </span>
-            <div class="flex items-center space-x-1">
+            <!-- Empty State -->
+            <div v-else-if="clientes.length === 0" class="p-10 text-center rounded-xl bg-[#0c0c0e] border border-neutral-800 space-y-2">
+              <i class="pi pi-inbox text-3xl text-neutral-600"></i>
+              <h3 class="text-sm font-semibold text-white">No se encontraron clientes en {{ currentSistema }}</h3>
+              <p class="text-xs text-neutral-500">Prueba cambiando el filtro o agregando un nuevo cliente.</p>
               <button
-                @click="changePage(currentPage - 1)"
-                :disabled="currentPage === 1"
-                class="px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
+                @click="clearSearch(); setFilter('activos')"
+                class="mt-2 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-medium text-white transition-colors"
               >
-                Anterior
-              </button>
-              <button
-                v-for="p in Math.min(totalPages, 5)"
-                :key="`p-${p}`"
-                @click="changePage(p)"
-                :class="['w-7 h-7 rounded text-xs font-mono transition-colors', currentPage === p ? 'bg-neutral-800 text-white font-semibold' : 'bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white']"
-              >
-                {{ p }}
-              </button>
-              <button
-                @click="changePage(currentPage + 1)"
-                :disabled="currentPage === totalPages"
-                class="px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
-              >
-                Siguiente
+                Restablecer Filtros
               </button>
             </div>
+
+            <!-- Listado Activo -->
+            <div v-else class="space-y-4">
+              <!-- 4. TABLA DESKTOP -->
+              <ClienteTable
+                v-if="viewMode === 'table'"
+                :clientes="clientes"
+                :is-super-admin="isSuperAdmin"
+                :get-initials="getInitials"
+                :format-whats-app-link="formatWhatsAppLink"
+                @view-detail="openDetail"
+                @edit="openEdit"
+                @delete="removeCliente"
+              />
+
+              <!-- 5. GRID TARJETAS MOBILE -->
+              <ClienteCardGrid
+                v-else
+                :clientes="clientes"
+                :view-mode="viewMode"
+                :is-super-admin="isSuperAdmin"
+                :get-initials="getInitials"
+                :format-whats-app-link="formatWhatsAppLink"
+                @view-detail="openDetail"
+                @edit="openEdit"
+              />
+
+              <!-- 6. PAGINACIÓN -->
+              <div v-if="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-neutral-900">
+                <span class="text-xs text-neutral-500 font-mono">
+                  Página <strong class="text-neutral-200">{{ currentPage }}</strong> de <strong class="text-neutral-200">{{ totalPages }}</strong>
+                </span>
+                <div class="flex items-center space-x-1">
+                  <button
+                    @click="changePage(currentPage - 1)"
+                    :disabled="currentPage === 1"
+                    class="px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
+                  >
+                    Anterior
+                  </button>
+                  <button
+                    v-for="p in Math.min(totalPages, 5)"
+                    :key="`p-${p}`"
+                    @click="changePage(p)"
+                    :class="['w-7 h-7 rounded text-xs font-mono transition-colors', currentPage === p ? 'bg-neutral-800 text-white font-semibold' : 'bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white']"
+                  >
+                    {{ p }}
+                  </button>
+                  <button
+                    @click="changePage(currentPage + 1)"
+                    :disabled="currentPage === totalPages"
+                    class="px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </template>
+        </Transition>
       </main>
     </div>
 
@@ -429,3 +440,21 @@ onMounted(() => {
     />
   </div>
 </template>
+
+<style scoped>
+/* Transición suave para cambio de sistema / contenido */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+</style>

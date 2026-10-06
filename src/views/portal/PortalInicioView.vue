@@ -122,16 +122,6 @@ onMounted(() => {
         </div>
 
         <div class="flex items-center gap-3">
-          <button
-            @click="fetchPortalData"
-            class="p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors"
-            title="Actualizar datos"
-          >
-            <i class="pi pi-refresh text-xs" :class="{ 'animate-spin': loading }"></i>
-          </button>
-
-          <div class="h-4 w-px bg-neutral-800"></div>
-
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-neutral-900 text-neutral-200 border border-neutral-800 flex items-center justify-center text-xs font-semibold font-mono">
               {{ portalData.cliente_nombre ? portalData.cliente_nombre.charAt(0).toUpperCase() : 'C' }}

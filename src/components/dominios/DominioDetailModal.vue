@@ -64,7 +64,7 @@ const emit = defineEmits<{
               <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Infraestructura & Registro</span>
               <div>
                 <span class="text-slate-400 block text-[11px]">Registrador / Proveedor</span>
-                <strong class="text-white">{{ dominio.proveedor || 'NexusBot' }}</strong>
+                <strong class="text-white">{{ dominio.proveedor || 'Puvnex' }}</strong>
               </div>
               <div>
                 <span class="text-slate-400 block text-[11px]">Costo de Renovación</span>
@@ -108,11 +108,11 @@ const emit = defineEmits<{
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
               <div class="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                 <span class="text-slate-500 text-[10px]">NS1:</span>
-                <span class="text-cyan-300">{{ dominio.ns1 || 'ns1.nexusbot.io' }}</span>
+                <span class="text-cyan-300">{{ dominio.ns1 || 'ns1.puvnex.io' }}</span>
               </div>
               <div class="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                 <span class="text-slate-500 text-[10px]">NS2:</span>
-                <span class="text-cyan-300">{{ dominio.ns2 || 'ns2.nexusbot.io' }}</span>
+                <span class="text-cyan-300">{{ dominio.ns2 || 'ns2.puvnex.io' }}</span>
               </div>
               <div v-if="dominio.ns3" class="p-2 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                 <span class="text-slate-500 text-[10px]">NS3:</span>

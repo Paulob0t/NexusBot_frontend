@@ -36,7 +36,7 @@ const defaultNextYear = nextYear.toISOString().split('T')[0]
 const formData = ref<DominioPayload>({
   cliente_id: 0,
   url_dominio: '',
-  proveedor: 'NexusBot',
+  proveedor: 'Puvnex',
   url_admin: '',
   usuario: 'admin',
   contrasena: '',
@@ -89,7 +89,7 @@ function resetForm() {
   formData.value = {
     cliente_id: 0,
     url_dominio: '',
-    proveedor: 'NexusBot',
+    proveedor: 'Puvnex',
     url_admin: '',
     usuario: 'admin',
     contrasena: '',
@@ -128,7 +128,7 @@ async function handleSubmit() {
     const payload: DominioPayload = {
       cliente_id: formData.value.cliente_id,
       url_dominio: formData.value.url_dominio.trim().toLowerCase(),
-      proveedor: formData.value.proveedor?.trim() || 'NexusBot',
+      proveedor: formData.value.proveedor?.trim() || 'Puvnex',
       url_admin: formData.value.url_admin?.trim() || undefined,
       usuario: formData.value.usuario?.trim() || undefined,
       contrasena: formData.value.contrasena_normal?.trim() || undefined,

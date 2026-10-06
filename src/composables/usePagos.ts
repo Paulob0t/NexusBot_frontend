@@ -113,7 +113,7 @@ export function usePagos() {
   function formatWhatsAppPaymentLink(pago: PagoListItem): string {
     const phone = pago.cliente_telefono?.replace(/[^0-9]/g, '') || ''
     const montoFmt = formatCurrency(pago.monto, pago.currency)
-    const texto = `Hola ${pago.cliente_nombre}, le contactamos de NexusBot CRM. Le compartimos la información de su cobro #${pago.id} (${pago.concepto}) por un monto de ${montoFmt}. Si ya realizó su pago, por favor compártanos su comprobante por este medio. ¡Muchas gracias!`
+    const texto = `Hola ${pago.cliente_nombre}, le contactamos de Puvnex CRM. Le compartimos la información de su cobro #${pago.id} (${pago.concepto}) por un monto de ${montoFmt}. Si ya realizó su pago, por favor compártanos su comprobante por este medio. ¡Muchas gracias!`
     return `https://wa.me/${phone}?text=${encodeURIComponent(texto)}`
   }
 

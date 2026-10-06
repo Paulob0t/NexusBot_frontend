@@ -74,7 +74,7 @@ function formatWhatsAppLink(phone: string | null, cliente: string, monto: number
   if (!phone) return '#'
   const cleanPhone = phone.replace(/[^0-9]/g, '')
   const msg = encodeURIComponent(
-    `Hola ${cliente}, le saludamos de NexusBot CRM. Le recordamos que su servicio "${concepto}" cuenta con un saldo pendiente de ${formatCurrency(monto)} MXN. ¿Le gustaría que le compartamos los métodos de pago?`
+    `Hola ${cliente}, le saludamos de Puvnex CRM. Le recordamos que su servicio "${concepto}" cuenta con un saldo pendiente de ${formatCurrency(monto)} MXN. ¿Le gustaría que le compartamos los métodos de pago?`
   )
   return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${msg}`
 }

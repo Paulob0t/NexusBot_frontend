@@ -17,9 +17,9 @@ const props = defineProps<{
 
 const showAdvancedNs = ref(false)
 
-function applyNexusDns() {
-  props.formData.ns1 = 'ns1.nexusbot.io'
-  props.formData.ns2 = 'ns2.nexusbot.io'
+function applyPuvnexDns() {
+  props.formData.ns1 = 'ns1.puvnex.io'
+  props.formData.ns2 = 'ns2.puvnex.io'
 }
 
 function applyCloudflareDns() {
@@ -52,10 +52,10 @@ function clearDns() {
       <div class="flex items-center space-x-2">
         <button
           type="button"
-          @click="applyNexusDns"
+          @click="applyPuvnexDns"
           class="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/20 text-[10px] font-semibold transition-colors"
         >
-          Preset Nexus
+          Preset Puvnex
         </button>
         <button
           type="button"

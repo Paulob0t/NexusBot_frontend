@@ -56,7 +56,7 @@ const emit = defineEmits<{
         <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
           <div class="flex items-center justify-between">
             <span class="text-slate-400">Registrador:</span>
-            <span class="font-medium text-slate-200">{{ dom.proveedor || 'NexusBot' }}</span>
+            <span class="font-medium text-slate-200">{{ dom.proveedor || 'Puvnex' }}</span>
           </div>
           <div class="flex items-center justify-between">
             <span class="text-slate-400">Costo:</span>

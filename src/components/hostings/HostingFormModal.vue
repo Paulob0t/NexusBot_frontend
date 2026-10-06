@@ -216,7 +216,7 @@ const emit = defineEmits<{
                 v-model="formData.ns1"
                 type="text"
                 class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm font-mono text-xs"
-                placeholder="ns1.nexusbot.io"
+                placeholder="ns1.puvnex.io"
               />
             </div>
             <div>
@@ -225,7 +225,7 @@ const emit = defineEmits<{
                 v-model="formData.ns2"
                 type="text"
                 class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm font-mono text-xs"
-                placeholder="ns2.nexusbot.io"
+                placeholder="ns2.puvnex.io"
               />
             </div>
           </div>

@@ -34,7 +34,7 @@ function sendDomainWhatsApp() {
   if (props.domain.fecha_pago) {
     texto += `📅 Próximo vencimiento: ${props.domain.fecha_pago}\n`
   }
-  texto += `\n¡Quedamos a tu servicio en NexusBot!`
+  texto += `\n¡Quedamos a tu servicio en Puvnex!`
 
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(texto)}`, '_blank')
 }
@@ -73,7 +73,7 @@ function sendDomainWhatsApp() {
           </div>
           <div class="flex justify-between text-slate-300">
             <span class="text-slate-500">Proveedor:</span>
-            <span class="text-slate-200">{{ domain.proveedor || 'NexusBot' }}</span>
+            <span class="text-slate-200">{{ domain.proveedor || 'Puvnex' }}</span>
           </div>
           <div class="flex justify-between text-slate-300">
             <span class="text-slate-500">Costo Base:</span>

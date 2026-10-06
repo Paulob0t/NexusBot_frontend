@@ -14,7 +14,7 @@ const emit = defineEmits<{
   (e: 'domain-changed', domain: string): void
 }>()
 
-const popularProviders = ['NexusBot', 'GoDaddy', 'Namecheap', 'Hostinger', 'Cloudflare', 'Google Domains']
+const popularProviders = ['Puvnex', 'GoDaddy', 'Namecheap', 'Hostinger', 'Cloudflare', 'Google Domains']
 
 function setProvider(p: string) {
   props.formData.proveedor = p
@@ -81,7 +81,7 @@ watch(
           v-model="formData.proveedor"
           type="text"
           required
-          placeholder="ej. NexusBot / GoDaddy"
+          placeholder="ej. Puvnex / GoDaddy"
           class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 mb-1.5"
         />
         <!-- Quick pills -->

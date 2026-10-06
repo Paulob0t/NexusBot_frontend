@@ -121,7 +121,7 @@ function handleLogout() {
           </div>
           <div v-show="!isCollapsed" class="min-w-0">
             <span class="text-sm font-semibold tracking-tight text-white flex items-center space-x-1">
-              <span>NEXUSBOT</span>
+              <span>PUVNEX</span>
               <span class="text-neutral-500 font-normal">CRM</span>
             </span>
             <span class="block text-[9px] font-mono tracking-widest text-neutral-500 uppercase">Core Suite</span>

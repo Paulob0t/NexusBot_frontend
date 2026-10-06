@@ -21,7 +21,7 @@ function sendHostingWhatsApp() {
   const pass = props.rawPassword || props.hosting.contrasena_normal || '••••••••'
   const nsList = [props.hosting.ns1, props.hosting.ns2].filter(Boolean).join(', ')
 
-  let texto = `¡Hola ${props.hosting.cliente_nombre}! Tu servicio de Hosting ha quedado aprovisionado con éxito en NexusBot:\n\n`
+  let texto = `¡Hola ${props.hosting.cliente_nombre}! Tu servicio de Hosting ha quedado aprovisionado con éxito en Puvnex:\n\n`
   texto += `🖥️ Servidor / Host: ${props.hosting.nom_host}\n`
   if (props.hosting.dominio) {
     texto += `🌐 Dominio Principal: https://${props.hosting.dominio}\n`

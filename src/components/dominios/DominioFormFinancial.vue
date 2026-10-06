@@ -85,7 +85,7 @@ const costoConIva = computed(() => {
           v-model="formData.registrado"
           class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white focus:outline-none focus:border-indigo-500"
         >
-          <option :value="1">Gestionado por NexusBot</option>
+          <option :value="1">Gestionado por Puvnex</option>
           <option :value="0">Proveedor Externo</option>
         </select>
         <span class="text-[10px] text-slate-500 mt-1 block">¿Quién gestiona la renovación?</span>

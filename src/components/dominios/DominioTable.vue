@@ -53,7 +53,7 @@ const emit = defineEmits<{
                   </a>
                   <div class="text-[11px] text-slate-400 flex items-center space-x-2 mt-0.5">
                     <span class="font-mono text-slate-500">ID: #{{ dom.id_dominio }}</span>
-                    <span v-if="dom.registrado === 1" class="px-1.5 py-0.2 rounded text-[9px] bg-blue-950 text-blue-300 border border-blue-500/30 font-semibold">NexusBot</span>
+                    <span v-if="dom.registrado === 1" class="px-1.5 py-0.2 rounded text-[9px] bg-blue-950 text-blue-300 border border-blue-500/30 font-semibold">Puvnex</span>
                     <span v-else class="px-1.5 py-0.2 rounded text-[9px] bg-slate-900 text-slate-400 border border-slate-700 font-semibold">Externo</span>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ const emit = defineEmits<{
                 <div class="font-black text-white text-xs">{{ formatCurrency(dom.costo_dominio) }}</div>
                 <div class="text-[11px] text-slate-400 flex items-center space-x-1">
                   <i class="pi pi-server text-[10px] text-slate-500"></i>
-                  <span>{{ dom.proveedor || 'NexusBot' }}</span>
+                  <span>{{ dom.proveedor || 'Puvnex' }}</span>
                 </div>
               </div>
             </td>

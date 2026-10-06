@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌟 NexusBot CRM — Frontend App
+# 🌟 Puvnex CRM — Frontend App
 ### *Next-Gen Executive Cloud Suite & Client Management Portal*
 
 [![Vue 3](https://img.shields.io/badge/Vue_3-3.5+-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
@@ -63,7 +63,7 @@
 ## 📂 Estructura del Proyecto
 
 ```bash
-NexusBot_frontend/
+Puvnex_frontend/
 ├── src/
 │   ├── api/                      # Clientes Axios y llamadas a endpoints por dominio
 │   ├── assets/                   # Estilos globales y configuraciones de Tailwind
@@ -122,8 +122,8 @@ NexusBot_frontend/
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone git@github.com:Paulob0t/NexusBot_frontend.git
-   cd NexusBot_frontend
+   git clone git@github.com:Paulob0t/Puvnex_frontend.git
+   cd Puvnex_frontend
    ```
 
 2. **Instalar dependencias**:
@@ -193,6 +193,6 @@ Todas las llamadas hacia `/api/*` se redirigen transparentemente a `http://127.0
 
 <div align="center">
 
-Desarrollado con ❤️ por **Paulo Essau** • *NexusBot Suite Cloud*
+Desarrollado con ❤️ por **Paulo Essau** • *Puvnex Suite Cloud*
 
 </div>

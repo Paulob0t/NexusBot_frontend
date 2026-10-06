@@ -17,8 +17,8 @@ const emit = defineEmits<{
 function sendWelcomeWhatsApp() {
   if (!props.client) return
   const phone = props.client.telefono?.replace(/[^0-9]/g, '') || ''
-  const pass = props.rawPassword || `Nexus${props.client.id}*`
-  const texto = `¡Hola ${props.client.nombre_contacto}! Te damos la bienvenida a Nexus CRM. Tus credenciales de acceso al portal de clientes son:\n\n👤 Usuario: ${props.client.correo || 'Tu correo'}\n🔑 Contraseña: ${pass}\n🌐 Acceso: ${window.location.origin}/login\n\n¡Quedamos a tu servicio!`
+  const pass = props.rawPassword || `Puvnex${props.client.id}*`
+  const texto = `¡Hola ${props.client.nombre_contacto}! Te damos la bienvenida a Puvnex CRM. Tus credenciales de acceso al portal de clientes son:\n\n👤 Usuario: ${props.client.correo || 'Tu correo'}\n🔑 Contraseña: ${pass}\n🌐 Acceso: ${window.location.origin}/login\n\n¡Quedamos a tu servicio!`
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(texto)}`, '_blank')
 }
 </script>

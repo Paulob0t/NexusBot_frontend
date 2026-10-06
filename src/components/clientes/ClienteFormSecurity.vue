@@ -57,7 +57,7 @@ const showPassword = ref(false)
           </button>
         </div>
         <span class="text-[10px] text-neutral-500 mt-1 block">
-          Si se deja en blanco, se asignará una clave por defecto (Nexus[ID]*).
+          Si se deja en blanco, se asignará una clave por defecto (Puvnex[ID]*).
         </span>
       </div>
     </div>

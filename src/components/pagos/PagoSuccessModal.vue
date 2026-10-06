@@ -19,7 +19,7 @@ function sendPagoWhatsApp() {
   const phone = props.pago.cliente_telefono?.replace(/[^0-9]/g, '') || ''
   const isPaid = props.pago.estatus === 1
 
-  let texto = `¡Hola ${props.pago.cliente_nombre}! Te compartimos los detalles de tu comprobante en NexusBot:\n\n`
+  let texto = `¡Hola ${props.pago.cliente_nombre}! Te compartimos los detalles de tu comprobante en Puvnex:\n\n`
   texto += `📄 Folio / Concepto: ${props.pago.concepto}\n`
   texto += `💵 Monto: $${Number(props.pago.monto).toFixed(2)} ${props.pago.currency}\n`
   texto += `💳 Método: ${props.pago.forma_pago_label}\n`

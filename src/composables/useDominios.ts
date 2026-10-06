@@ -98,7 +98,7 @@ export function useDominios() {
     if (!phone) return '#'
     const cleanPhone = phone.replace(/[^0-9]/g, '')
     const msg = encodeURIComponent(
-      `Hola ${cliente}, le saludamos de NexusBot. Le notificamos que su dominio "${dominio}" tiene fecha de renovación para el ${vencimiento || 'próximo periodo'}. ¿Desea proceder con la renovación?`
+      `Hola ${cliente}, le saludamos de Puvnex. Le notificamos que su dominio "${dominio}" tiene fecha de renovación para el ${vencimiento || 'próximo periodo'}. ¿Desea proceder con la renovación?`
     )
     return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${msg}`
   }

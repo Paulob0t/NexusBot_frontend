@@ -96,7 +96,7 @@ export function useClientes() {
   function formatWhatsAppLink(phone: string | null): string {
     if (!phone) return '#'
     const cleanPhone = phone.replace(/[^0-9]/g, '')
-    return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=Hola,%20nos%20comunicamos%20de%20NexusBot`
+    return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=Hola,%20nos%20comunicamos%20de%20Puvnex`
   }
 
   function formatCurrency(amount: number, currency: string = 'MXN'): string {
@@ -108,7 +108,7 @@ export function useClientes() {
   }
 
   function getInitials(name: string): string {
-    if (!name) return 'NB'
+    if (!name) return 'PX'
     const parts = name.trim().split(/\s+/)
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase()

@@ -60,7 +60,7 @@ async function handleLogin() {
           </div>
           <div>
             <span class="text-xl font-semibold tracking-tight text-white">
-              NEXUSBOT <span class="text-neutral-500 font-normal">CRM</span>
+              PUVNEX <span class="text-neutral-500 font-normal">CRM</span>
             </span>
             <span class="block text-[10px] font-mono tracking-wider text-neutral-500 uppercase">
               Core Enterprise Platform
@@ -115,7 +115,7 @@ async function handleLogin() {
 
       <!-- Pie de página izquierdo -->
       <div class="flex items-center justify-between text-xs text-neutral-600 pt-6 border-t border-neutral-900">
-        <span>© 2026 NexusBot CRM. Todos los derechos reservados.</span>
+        <span>© 2026 Puvnex CRM. Todos los derechos reservados.</span>
         <span class="flex items-center space-x-1.5 text-neutral-500">
           <i class="pi pi-lock text-[11px]"></i>
           <span>Ambiente Seguro</span>
@@ -133,7 +133,7 @@ async function handleLogin() {
             <i class="pi pi-shield text-base text-neutral-200"></i>
           </div>
           <div>
-            <span class="text-lg font-semibold text-white">NEXUSBOT</span>
+            <span class="text-lg font-semibold text-white">PUVNEX</span>
             <span class="block text-[10px] font-mono text-neutral-500">CRM SUITE</span>
           </div>
         </div>

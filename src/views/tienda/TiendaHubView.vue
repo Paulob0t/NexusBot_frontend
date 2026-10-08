@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 </script>
 
 <template>
   <div class="min-h-screen bg-[#09090b] text-neutral-200 selection:bg-white selection:text-black flex flex-col font-sans">
-    <!-- Navbar Pública Modular -->
+    <!-- Navbar Pública -->
     <header class="sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md border-b border-neutral-800/80 h-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         <div class="flex items-center space-x-3">
@@ -24,10 +26,19 @@ const router = useRouter()
         <!-- Botones de Acción -->
         <div class="flex items-center space-x-3">
           <button
+            v-if="authStore.isAuthenticated"
             @click="router.push('/dashboard')"
+            class="px-3.5 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-neutral-200 hover:text-white text-xs font-semibold transition-all shadow-sm flex items-center space-x-1.5"
+          >
+            <i class="pi pi-arrow-left text-[10px]"></i>
+            <span>Volver al CRM</span>
+          </button>
+          <button
+            v-else
+            @click="router.push('/login')"
             class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold transition-all shadow-sm"
           >
-            Volver al CRM
+            Iniciar Sesión
           </button>
         </div>
       </div>

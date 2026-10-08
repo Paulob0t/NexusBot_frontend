@@ -7,7 +7,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#060608] text-neutral-200 selection:bg-white selection:text-black flex flex-col font-sans relative overflow-x-hidden">
+  <div class="min-h-screen w-full bg-[#060608] text-neutral-200 selection:bg-white selection:text-black flex flex-col font-sans relative">
     <!-- Luces Ambientales de Fondo -->
     <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div class="absolute -top-40 left-1/4 w-[600px] h-[500px] bg-cyan-600/10 blur-[130px] rounded-full"></div>

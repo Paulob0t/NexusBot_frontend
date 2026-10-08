@@ -62,7 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#060608] text-neutral-100 selection:bg-emerald-500 selection:text-black flex flex-col font-sans relative overflow-x-hidden">
+  <div class="min-h-screen w-full bg-[#060608] text-neutral-100 selection:bg-emerald-500 selection:text-black flex flex-col font-sans relative">
     <!-- Luces Ambientales de Fondo (Mesh Glows) -->
     <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-emerald-600/15 via-teal-600/5 to-transparent blur-3xl rounded-full"></div>

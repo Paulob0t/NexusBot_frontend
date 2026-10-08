@@ -23,6 +23,7 @@ const loading = ref(false)
 const saving = ref(false)
 
 const isAgente = computed(() => authStore.isAgente)
+const isCliente = computed(() => authStore.isCliente)
 
 const items = ref<SolicitudItem[]>([])
 const agentes = ref<AgenteSimple[]>([])
@@ -82,8 +83,8 @@ async function fetchSolicitudes() {
       search: search.value || undefined,
       estado: selectedEstado.value,
       prioridad: selectedPrioridad.value,
-      agente_id: selectedAgenteId.value ?? undefined,
-      solo_mias: soloMias.value,
+      agente_id: (!isCliente.value && selectedAgenteId.value) ? selectedAgenteId.value : undefined,
+      solo_mias: !isCliente.value && soloMias.value,
       page: page.value,
       limit: limit.value,
     })
@@ -98,6 +99,7 @@ async function fetchSolicitudes() {
 }
 
 async function fetchInitialData() {
+  if (isCliente.value) return
   try {
     const [agentesRes, clientsRes] = await Promise.all([
       solicitudesApi.getAgentes(),
@@ -127,6 +129,7 @@ async function handleViewDetail(item: SolicitudItem) {
 
 // Cambiar Estado
 async function handleUpdateStatus(item: SolicitudItem, newStatus: string) {
+  if (isCliente.value) return
   try {
     const res = await solicitudesApi.updateStatus(item.id, newStatus)
     item.estado = res.data.estado
@@ -142,7 +145,7 @@ async function handleUpdateStatus(item: SolicitudItem, newStatus: string) {
 
 // Reasignar Agentes
 async function handleAssignAgents(agentIds: number[]) {
-  if (!detailModal.solicitud) return
+  if (isCliente.value || !detailModal.solicitud) return
   try {
     const res = await solicitudesApi.assignAgents(detailModal.solicitud.id, agentIds)
     detailModal.solicitud.agentes = res.data.agentes
@@ -153,16 +156,16 @@ async function handleAssignAgents(agentIds: number[]) {
   }
 }
 
-// Agregar Nota
+// Agregar Nota / Mensaje
 async function handleAddNote(text: string) {
   if (!detailModal.solicitud) return
   try {
     const res = await solicitudesApi.addNota(detailModal.solicitud.id, { nota: text })
     detailModal.solicitud.notas.unshift(res.data)
     detailModal.solicitud.total_notas++
-    showToast('Comentario añadido exitosamente', 'success')
+    showToast(isCliente.value ? 'Mensaje enviado exitosamente' : 'Comentario añadido exitosamente', 'success')
   } catch (err: any) {
-    showToast(err.response?.data?.detail || 'Error al guardar comentario', 'error')
+    showToast(err.response?.data?.detail || 'Error al enviar mensaje', 'error')
   }
 }
 
@@ -185,7 +188,7 @@ async function handleSaveSolicitud(payload: any) {
       showToast('Solicitud actualizada con éxito', 'success')
     } else {
       await solicitudesApi.create(payload)
-      showToast('Solicitud creada exitosamente', 'success')
+      showToast(isCliente.value ? 'Solicitud enviada al equipo técnico exitosamente' : 'Solicitud creada exitosamente', 'success')
     }
     formModal.visible = false
     fetchSolicitudes()
@@ -198,6 +201,7 @@ async function handleSaveSolicitud(payload: any) {
 
 // Eliminar
 async function handleDelete(item: SolicitudItem) {
+  if (isCliente.value) return
   if (!confirm(`¿Estás seguro de eliminar la solicitud #${item.id}: "${item.titulo}"?`)) return
   try {
     await solicitudesApi.delete(item.id)
@@ -215,38 +219,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-screen bg-[#09090b] text-neutral-200 overflow-hidden font-sans selection:bg-neutral-700 selection:text-white">
+  <div class="flex h-screen bg-[#09090b] text-neutral-200 overflow-hidden font-sans selection:bg-white selection:text-black">
     <!-- Sidebar -->
     <AppSidebar :isMobileOpen="isMobileOpen" @close-mobile="isMobileOpen = false" />
 
     <!-- Área Principal -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#09090b]">
       <!-- Barra Superior -->
-      <header class="h-16 px-4 md:px-8 border-b border-neutral-900 bg-[#09090b]/90 backdrop-blur-md flex items-center justify-between shrink-0">
+      <header class="h-16 px-4 md:px-8 border-b border-neutral-800/80 bg-[#09090b]/90 backdrop-blur-md flex items-center justify-between shrink-0">
         <div class="flex items-center space-x-3">
           <button
             @click="isMobileOpen = true"
-            class="lg:hidden p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 focus:outline-none"
+            class="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
           >
             <i class="pi pi-bars text-sm"></i>
           </button>
           <div>
-            <div class="flex items-center space-x-2 text-xs text-neutral-500">
-              <span>Operaciones</span>
+            <div class="flex items-center space-x-2 text-xs text-neutral-500 font-medium">
+              <span>{{ isCliente ? 'Mi Portal' : 'Operaciones' }}</span>
               <i class="pi pi-chevron-right text-[9px]"></i>
-              <span class="text-neutral-300 font-mono">{{ isAgente ? 'Mis Solicitudes' : 'Solicitudes & Tickets' }}</span>
+              <span class="text-neutral-300 font-mono">{{ isCliente ? 'Mis Solicitudes' : (isAgente ? 'Mis Tickets Asignados' : 'Solicitudes & Tickets') }}</span>
             </div>
             <h1 class="text-base font-semibold text-white tracking-tight">
-              {{ isAgente ? 'Tickets Asignados' : 'Mesa de Solicitudes & Soporte' }}
+              {{ isCliente ? 'Mis Solicitudes de Soporte' : (isAgente ? 'Tickets Asignados' : 'Mesa de Solicitudes & Soporte') }}
             </h1>
           </div>
         </div>
 
         <!-- Rol Badge Monocromático -->
         <div class="flex items-center space-x-2">
-          <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono">
-            <span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
-            <span>{{ isAgente ? 'Agente' : 'Administrador' }}</span>
+          <div class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono">
+            <span class="w-1.5 h-1.5 rounded-full" :class="isCliente ? 'bg-emerald-400' : 'bg-neutral-400'"></span>
+            <span>{{ isCliente ? 'Cliente' : (isAgente ? 'Agente' : 'Administrador') }}</span>
           </div>
         </div>
       </header>
@@ -254,7 +258,12 @@ onMounted(() => {
       <!-- Contenedor Principal con Scroll -->
       <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5 custom-scrollbar">
         <!-- Tarjetas KPIs -->
-        <SolicitudesKpis :kpis="kpis" :loading="loading" :isAgente="isAgente" />
+        <SolicitudesKpis
+          :kpis="kpis"
+          :loading="loading"
+          :isAgente="isAgente"
+          :isCliente="isCliente"
+        />
 
         <!-- Filtros y Barra de Acciones -->
         <SolicitudesFilters
@@ -265,6 +274,7 @@ onMounted(() => {
           v-model:soloMias="soloMias"
           :agentes="agentes"
           :isAgente="isAgente"
+          :isCliente="isCliente"
           @update:search="fetchSolicitudes"
           @update:selectedEstado="fetchSolicitudes"
           @update:selectedPrioridad="fetchSolicitudes"
@@ -278,6 +288,7 @@ onMounted(() => {
         <SolicitudesTable
           :items="items"
           :loading="loading"
+          :isCliente="isCliente"
           @view-detail="handleViewDetail"
           @edit="handleEdit"
           @update-status="handleUpdateStatus"
@@ -292,6 +303,7 @@ onMounted(() => {
       :solicitud="detailModal.solicitud"
       :loading="detailModal.loading"
       :agentes="agentes"
+      :isCliente="isCliente"
       @close="detailModal.visible = false"
       @update-status="(st) => detailModal.solicitud && handleUpdateStatus(detailModal.solicitud, st)"
       @assign-agents="handleAssignAgents"
@@ -305,6 +317,7 @@ onMounted(() => {
       :agentes="agentes"
       :clients="clients"
       :saving="saving"
+      :isCliente="isCliente"
       @close="formModal.visible = false"
       @save="handleSaveSolicitud"
     />

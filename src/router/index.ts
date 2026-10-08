@@ -155,6 +155,20 @@ const routes = [
     redirect: '/tienda/bot'
   },
   {
+    path: '/admin/tienda',
+    name: 'admin-tienda',
+    component: () => import('@/views/AdminTiendaView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/gestor-tienda',
+    redirect: '/admin/tienda'
+  },
+  {
+    path: '/tienda-cms',
+    redirect: '/admin/tienda'
+  },
+  {
     path: '/admin/:pathMatch(.*)*',
     name: 'admin-views',
     component: () => import('@/views/DashboardView.vue'),

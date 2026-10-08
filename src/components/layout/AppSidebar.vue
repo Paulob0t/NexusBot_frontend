@@ -32,6 +32,7 @@ const openModules = ref<Record<string, boolean>>({
   soporte: false,
   analytics: false,
   seguridad: false,
+  tienda: false,
 })
 
 // Auto-expandir el módulo correspondiente según la ruta actual
@@ -59,6 +60,8 @@ function syncActiveModules(path: string) {
     openModules.value.comunicacion = true
   } else if (path === '/solicitudes' || path.startsWith('/solicitud')) {
     openModules.value.solicitudes = true
+  } else if (path.startsWith('/tienda')) {
+    openModules.value.tienda = true
   }
 }
 
@@ -253,6 +256,18 @@ function handleLogout() {
           >
             <i class="pi pi-headphones text-xs text-neutral-400 shrink-0"></i>
             <span v-show="!isCollapsed" class="truncate">Soporte & Tickets</span>
+          </button>
+          <button
+            @click="handleNavigation('/tienda')"
+            :class="[
+              'w-full flex items-center rounded-lg text-xs font-medium text-neutral-400 hover:bg-neutral-900/60 hover:text-white transition-colors',
+              isCollapsed ? 'justify-center p-2.5' : 'space-x-2.5 px-3 py-2',
+              route.path.startsWith('/tienda') ? 'bg-neutral-900 text-white font-semibold' : ''
+            ]"
+            :title="isCollapsed ? 'Tienda Online' : undefined"
+          >
+            <i class="pi pi-shopping-bag text-xs text-neutral-400 shrink-0"></i>
+            <span v-show="!isCollapsed" class="truncate">Tienda Online</span>
           </button>
         </div>
 
@@ -478,6 +493,75 @@ function handleLogout() {
                   ]"
                 >
                   <span class="truncate">Recordatorios Correo</span>
+                </button>
+              </div>
+            </transition>
+          </div>
+
+          <!-- 4. MÓDULO: TIENDA PÚBLICA -->
+          <div class="space-y-1">
+            <button
+              @click="toggleModule('tienda')"
+              :class="[
+                'w-full flex items-center rounded-lg text-xs font-medium text-neutral-400 hover:text-neutral-200 transition-colors group',
+                isCollapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2'
+              ]"
+              :title="isCollapsed ? 'Tienda Pública' : undefined"
+            >
+              <div class="flex items-center space-x-2.5">
+                <span class="w-5 h-5 rounded bg-neutral-900 text-neutral-400 flex items-center justify-center shrink-0">
+                  <i class="pi pi-shopping-bag text-[10px]"></i>
+                </span>
+                <span v-show="!isCollapsed" class="uppercase tracking-wider text-[9px] font-mono text-neutral-400">Tienda Pública</span>
+              </div>
+              <i
+                v-show="!isCollapsed"
+                class="pi pi-chevron-down text-[9px] transition-transform duration-150 text-neutral-600 group-hover:text-neutral-400"
+                :class="{ '-rotate-90': !openModules.tienda }"
+              ></i>
+            </button>
+
+            <transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 -translate-y-1"
+              enter-to-class="opacity-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 translate-y-0"
+              leave-to-class="opacity-0 -translate-y-1"
+            >
+              <div v-show="openModules.tienda && !isCollapsed" class="space-y-0.5 pl-3 pt-0.5 border-l border-neutral-900 ml-4">
+                <button
+                  @click="handleNavigation('/tienda')"
+                  :class="[
+                    'w-full flex items-center space-x-2 px-2.5 py-1.5 rounded text-xs transition-colors',
+                    route.path === '/tienda'
+                      ? 'bg-neutral-900 text-white font-medium'
+                      : 'text-neutral-400 hover:bg-neutral-900/60 hover:text-white'
+                  ]"
+                >
+                  <span class="truncate">Hub Tienda</span>
+                </button>
+                <button
+                  @click="handleNavigation('/tienda/web')"
+                  :class="[
+                    'w-full flex items-center space-x-2 px-2.5 py-1.5 rounded text-xs transition-colors',
+                    route.path === '/tienda/web'
+                      ? 'bg-neutral-900 text-white font-medium'
+                      : 'text-neutral-400 hover:bg-neutral-900/60 hover:text-white'
+                  ]"
+                >
+                  <span class="truncate">Puvnext Web</span>
+                </button>
+                <button
+                  @click="handleNavigation('/tienda/bot')"
+                  :class="[
+                    'w-full flex items-center space-x-2 px-2.5 py-1.5 rounded text-xs transition-colors',
+                    route.path === '/tienda/bot'
+                      ? 'bg-neutral-900 text-white font-medium'
+                      : 'text-neutral-400 hover:bg-neutral-900/60 hover:text-white'
+                  ]"
+                >
+                  <span class="truncate">Puvnext Bot</span>
                 </button>
               </div>
             </transition>

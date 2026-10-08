@@ -129,6 +129,32 @@ const routes = [
     redirect: '/portal'
   },
   {
+    path: '/tienda',
+    name: 'tienda-hub',
+    component: () => import('@/views/tienda/TiendaHubView.vue'),
+    meta: { public: true }
+  },
+  {
+    path: '/tienda/web',
+    name: 'tienda-puvnext-web',
+    component: () => import('@/views/tienda/Puvnext_web/PuvnextWebView.vue'),
+    meta: { public: true }
+  },
+  {
+    path: '/tienda/bot',
+    name: 'tienda-puvnext-bot',
+    component: () => import('@/views/tienda/Puvnext_bot/PuvnextBotView.vue'),
+    meta: { public: true }
+  },
+  {
+    path: '/puvnext-web',
+    redirect: '/tienda/web'
+  },
+  {
+    path: '/puvnext-bot',
+    redirect: '/tienda/bot'
+  },
+  {
     path: '/admin/:pathMatch(.*)*',
     name: 'admin-views',
     component: () => import('@/views/DashboardView.vue'),

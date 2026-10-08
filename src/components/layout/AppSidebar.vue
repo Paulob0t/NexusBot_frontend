@@ -531,6 +531,18 @@ function handleLogout() {
             >
               <div v-show="openModules.tienda && !isCollapsed" class="space-y-0.5 pl-3 pt-0.5 border-l border-neutral-900 ml-4">
                 <button
+                  @click="handleNavigation('/admin/tienda')"
+                  :class="[
+                    'w-full flex items-center justify-between px-2.5 py-1.5 rounded text-xs transition-colors',
+                    route.path === '/admin/tienda'
+                      ? 'bg-neutral-900 text-white font-medium'
+                      : 'text-neutral-400 hover:bg-neutral-900/60 hover:text-white'
+                  ]"
+                >
+                  <span class="truncate">Gestor de Tienda</span>
+                  <span class="px-1.5 py-0.2 rounded bg-white text-black text-[9px] font-bold font-mono">CMS</span>
+                </button>
+                <button
                   @click="handleNavigation('/tienda')"
                   :class="[
                     'w-full flex items-center space-x-2 px-2.5 py-1.5 rounded text-xs transition-colors',

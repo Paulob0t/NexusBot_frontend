@@ -4,6 +4,7 @@ import type { SolicitudItem } from '@/api/solicitudes'
 defineProps<{
   items: SolicitudItem[]
   loading: boolean
+  isCliente?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -16,13 +17,13 @@ const emit = defineEmits<{
 function getEstadoBadge(estado: string) {
   switch (estado) {
     case 'Pendiente':
-      return { label: 'Pendiente', classes: 'bg-neutral-900 text-amber-400 border-neutral-800' }
+      return { label: 'Pendiente', dotClass: 'bg-amber-500', classes: 'bg-amber-500/10 text-amber-400 border-amber-500/20' }
     case 'En Proceso':
-      return { label: 'En Proceso', classes: 'bg-neutral-900 text-neutral-200 border-neutral-700 font-medium' }
+      return { label: 'En Proceso', dotClass: 'bg-neutral-300', classes: 'bg-neutral-800 text-neutral-200 border-neutral-700 font-medium' }
     case 'Finalizado':
-      return { label: 'Finalizado', classes: 'bg-neutral-900 text-emerald-400 border-neutral-800' }
+      return { label: 'Finalizado', dotClass: 'bg-emerald-500', classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' }
     default:
-      return { label: estado, classes: 'bg-neutral-900 text-neutral-400 border-neutral-800' }
+      return { label: estado, dotClass: 'bg-neutral-500', classes: 'bg-neutral-900 text-neutral-400 border-neutral-800' }
   }
 }
 
@@ -41,34 +42,40 @@ function getPrioridadBadge(prioridad: string) {
 </script>
 
 <template>
-  <div class="rounded-xl bg-[#0c0c0e] border border-neutral-800 overflow-hidden">
-    <div class="overflow-x-auto">
+  <div class="rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 overflow-hidden shadow-sm">
+    <div class="overflow-x-auto custom-scrollbar">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="border-b border-neutral-800 bg-neutral-950 text-[10px] font-mono font-medium text-neutral-400 uppercase tracking-wider select-none">
-            <th class="p-3 w-14 text-center">ID</th>
-            <th class="p-3">Título / Requerimiento</th>
-            <th class="p-3">Cliente</th>
-            <th class="p-3">Agente(s)</th>
-            <th class="p-3">Prioridad</th>
-            <th class="p-3">Estado</th>
-            <th class="p-3">Fecha / Límite</th>
-            <th class="p-3 text-right">Acciones</th>
+          <tr class="border-b border-neutral-800/80 bg-neutral-900/40 text-[11px] font-semibold text-neutral-400 uppercase tracking-wider select-none">
+            <th class="py-3.5 px-4 w-14 text-center">ID</th>
+            <th class="py-3.5 px-4">Título / Requerimiento</th>
+            <th v-if="!isCliente" class="py-3.5 px-4">Cliente</th>
+            <th v-if="!isCliente" class="py-3.5 px-4">Agente(s)</th>
+            <th class="py-3.5 px-4">Prioridad</th>
+            <th class="py-3.5 px-4">Estado</th>
+            <th class="py-3.5 px-4">Fecha Solicitud</th>
+            <th class="py-3.5 px-4 text-right">Acciones</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-neutral-900 text-xs text-neutral-300">
+        <tbody class="divide-y divide-neutral-800/50 text-xs text-neutral-300">
           <tr v-if="loading">
-            <td colspan="8" class="p-8 text-center text-neutral-500">
-              <i class="pi pi-spin pi-spinner text-xl text-neutral-400 mb-2"></i>
-              <div class="text-xs font-mono">Cargando solicitudes...</div>
+            <td :colspan="isCliente ? 6 : 8" class="p-12 text-center text-neutral-500">
+              <i class="pi pi-spin pi-spinner text-2xl text-neutral-400 mb-2"></i>
+              <div class="text-xs font-medium text-neutral-400">Cargando solicitudes...</div>
             </td>
           </tr>
 
           <tr v-else-if="items.length === 0">
-            <td colspan="8" class="p-10 text-center text-neutral-500">
-              <i class="pi pi-inbox text-2xl text-neutral-600 mb-2"></i>
-              <div class="text-xs font-medium text-neutral-300">No se encontraron solicitudes</div>
-              <p class="text-[11px] text-neutral-500 mt-0.5">Prueba cambiando los filtros o crea una nueva solicitud.</p>
+            <td :colspan="isCliente ? 6 : 8" class="p-12 text-center text-neutral-500 space-y-2">
+              <div class="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 flex items-center justify-center mx-auto text-lg">
+                <i class="pi pi-inbox"></i>
+              </div>
+              <div class="text-sm font-semibold text-white">
+                {{ isCliente ? 'No tienes solicitudes registradas' : 'No se encontraron solicitudes' }}
+              </div>
+              <p class="text-xs text-neutral-400 max-w-sm mx-auto">
+                {{ isCliente ? 'Si necesitas asistencia técnica o soporte, haz clic en "Crear Solicitud".' : 'Prueba cambiando los filtros o crea una nueva solicitud.' }}
+              </p>
             </td>
           </tr>
 
@@ -78,12 +85,12 @@ function getPrioridadBadge(prioridad: string) {
             class="hover:bg-neutral-900/40 transition-colors duration-100 group"
           >
             <!-- ID -->
-            <td class="p-3 text-center font-mono text-[11px] text-neutral-500">
+            <td class="py-3.5 px-4 text-center font-mono text-xs text-neutral-400 font-semibold">
               #{{ item.id }}
             </td>
 
             <!-- Título y descripción -->
-            <td class="p-3 max-w-xs">
+            <td class="py-3.5 px-4 max-w-xs sm:max-w-md">
               <div
                 @click="emit('view-detail', item)"
                 class="font-medium text-white group-hover:text-neutral-200 cursor-pointer transition-colors truncate text-xs"
@@ -97,27 +104,27 @@ function getPrioridadBadge(prioridad: string) {
               <!-- Indicador de notas adjuntas -->
               <div v-if="item.total_notas > 0" class="inline-flex items-center space-x-1 text-[10px] font-mono text-neutral-400 mt-1">
                 <i class="pi pi-comments text-[9px]"></i>
-                <span>{{ item.total_notas }} {{ item.total_notas === 1 ? 'nota' : 'notas' }}</span>
+                <span>{{ item.total_notas }} {{ item.total_notas === 1 ? 'comentario' : 'comentarios' }}</span>
               </div>
             </td>
 
-            <!-- Cliente -->
-            <td class="p-3 whitespace-nowrap">
-              <div class="font-medium text-neutral-200 text-xs">
+            <!-- Cliente (Solo Admin/Agente) -->
+            <td v-if="!isCliente" class="py-3.5 px-4 whitespace-nowrap">
+              <div class="font-medium text-white text-xs">
                 {{ item.cliente_nombre || item.cliente_empresa || 'Cliente General' }}
               </div>
-              <div v-if="item.cliente_empresa && item.cliente_nombre" class="text-[10px] text-neutral-500">
+              <div v-if="item.cliente_empresa && item.cliente_nombre" class="text-[11px] text-neutral-400">
                 {{ item.cliente_empresa }}
               </div>
             </td>
 
-            <!-- Agentes -->
-            <td class="p-3">
+            <!-- Agentes (Solo Admin/Agente) -->
+            <td v-if="!isCliente" class="py-3.5 px-4">
               <div v-if="item.agentes && item.agentes.length > 0" class="flex flex-wrap gap-1">
                 <span
                   v-for="ag in item.agentes"
                   :key="ag.id"
-                  class="px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300 text-[10px] font-mono"
+                  class="px-2 py-0.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 text-[10px] font-mono"
                 >
                   {{ ag.nombre }}
                 </span>
@@ -128,10 +135,10 @@ function getPrioridadBadge(prioridad: string) {
             </td>
 
             <!-- Prioridad -->
-            <td class="p-3 whitespace-nowrap">
+            <td class="py-3.5 px-4 whitespace-nowrap">
               <span
                 :class="[
-                  'px-2 py-0.5 rounded text-[10px] font-mono border inline-block',
+                  'px-2 py-0.5 rounded-md text-[10px] font-mono border inline-block',
                   getPrioridadBadge(item.prioridad).classes
                 ]"
               >
@@ -139,59 +146,75 @@ function getPrioridadBadge(prioridad: string) {
               </span>
             </td>
 
-            <!-- Estado con Selector Rápido -->
-            <td class="p-3 whitespace-nowrap">
+            <!-- Estado -->
+            <td class="py-3.5 px-4 whitespace-nowrap">
+              <!-- Modo Cliente: Solo lectura con status dot -->
+              <span
+                v-if="isCliente"
+                :class="[
+                  'inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border',
+                  getEstadoBadge(item.estado).classes
+                ]"
+              >
+                <span class="w-1.5 h-1.5 rounded-full" :class="getEstadoBadge(item.estado).dotClass"></span>
+                <span>{{ item.estado }}</span>
+              </span>
+
+              <!-- Modo Staff: Selector de estado -->
               <select
+                v-else
                 :value="item.estado"
                 @change="emit('update-status', item, ($event.target as HTMLSelectElement).value)"
                 :class="[
-                  'px-2 py-0.5 rounded text-[10px] font-mono border cursor-pointer focus:outline-none transition-colors',
+                  'px-2 py-0.5 rounded-lg text-[10px] font-mono border cursor-pointer focus:outline-none transition-colors',
                   getEstadoBadge(item.estado).classes,
-                  'bg-neutral-950'
+                  'bg-[#141417]'
                 ]"
               >
-                <option value="Pendiente" class="bg-neutral-950 text-amber-400">Pendiente</option>
-                <option value="En Proceso" class="bg-neutral-950 text-white">En Proceso</option>
-                <option value="Finalizado" class="bg-neutral-950 text-emerald-400">Finalizado</option>
+                <option value="Pendiente" class="bg-[#141417] text-amber-400">Pendiente</option>
+                <option value="En Proceso" class="bg-[#141417] text-white">En Proceso</option>
+                <option value="Finalizado" class="bg-[#141417] text-emerald-400">Finalizado</option>
               </select>
             </td>
 
             <!-- Fechas -->
-            <td class="p-3 whitespace-nowrap font-mono">
-              <div class="text-[11px] text-neutral-400">
+            <td class="py-3.5 px-4 whitespace-nowrap font-mono">
+              <div class="text-[11px] text-neutral-300">
                 {{ item.fecha_solicitud || '---' }}
               </div>
-              <div v-if="item.fecha_lim" class="text-[10px] text-neutral-500 mt-0.5 flex items-center space-x-1">
+              <div v-if="!isCliente && item.fecha_lim" class="text-[10px] text-neutral-500 mt-0.5 flex items-center space-x-1">
                 <i class="pi pi-calendar text-[8px]"></i>
                 <span>Límite: {{ item.fecha_lim }}</span>
               </div>
             </td>
 
             <!-- Acciones -->
-            <td class="p-3 text-right whitespace-nowrap">
+            <td class="py-3.5 px-4 text-right whitespace-nowrap">
               <div class="flex items-center justify-end space-x-1">
-                <!-- Ver Detalle / Notas -->
+                <!-- Ver Detalle / Comentarios -->
                 <button
                   @click="emit('view-detail', item)"
-                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
-                  title="Ver detalle y comentarios"
+                  class="p-1.5 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
+                  :title="isCliente ? 'Ver conversación y respuestas' : 'Ver detalle y notas'"
                 >
                   <i class="pi pi-eye text-xs"></i>
                 </button>
 
-                <!-- Editar -->
+                <!-- Editar (Solo Staff) -->
                 <button
+                  v-if="!isCliente"
                   @click="emit('edit', item)"
-                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
+                  class="p-1.5 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
                   title="Editar solicitud"
                 >
                   <i class="pi pi-pencil text-xs"></i>
                 </button>
 
-                <!-- Eliminar -->
+                <!-- Eliminar (Solo Staff) -->
                 <button
+                  v-if="!isCliente"
                   @click="emit('delete', item)"
-                  class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-red-400 hover:bg-neutral-800 transition-colors"
+                  class="p-1.5 rounded-lg bg-neutral-900/80 border border-neutral-800 text-neutral-400 hover:text-rose-400 hover:bg-neutral-800 transition-colors"
                   title="Eliminar solicitud"
                 >
                   <i class="pi pi-trash text-xs"></i>

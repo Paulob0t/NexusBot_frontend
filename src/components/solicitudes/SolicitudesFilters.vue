@@ -8,7 +8,8 @@ defineProps<{
   selectedAgenteId: number | null
   soloMias: boolean
   agentes: AgenteSimple[]
-  isAgente: boolean
+  isAgente?: boolean
+  isCliente?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -47,8 +48,8 @@ const prioridades = [
           :value="search"
           @input="emit('update:search', ($event.target as HTMLInputElement).value)"
           type="text"
-          placeholder="Buscar por título, descripción, cliente..."
-          class="w-full bg-neutral-950 border border-neutral-800 rounded-lg pl-8 pr-7 py-1.5 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
+          :placeholder="isCliente ? 'Buscar en mis requerimientos y tickets...' : 'Buscar por título, descripción, cliente...'"
+          class="w-full bg-[#141417] border border-neutral-800 rounded-xl pl-8 pr-7 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors"
         />
         <button
           v-if="search"
@@ -63,25 +64,25 @@ const prioridades = [
       <div class="flex flex-wrap items-center gap-2">
         <!-- Toggle Solo Mis Asignadas (Para Agentes) -->
         <button
-          v-if="isAgente"
+          v-if="isAgente && !isCliente"
           @click="emit('update:soloMias', !soloMias)"
           :class="[
-            'px-3 py-1.5 rounded-lg border text-xs font-medium flex items-center space-x-1.5 transition-all',
+            'px-3 py-1.5 rounded-xl border text-xs font-medium flex items-center space-x-1.5 transition-all',
             soloMias
-              ? 'bg-neutral-800 border-neutral-700 text-white'
-              : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white'
+              ? 'bg-neutral-800 border-neutral-700 text-white shadow-sm'
+              : 'bg-[#141417] border-neutral-800 text-neutral-400 hover:text-white'
           ]"
         >
           <i :class="['pi', soloMias ? 'pi-check-circle text-neutral-200' : 'pi-circle text-neutral-600', 'text-xs']"></i>
           <span>Solo Mis Asignadas</span>
         </button>
 
-        <!-- Selector de Agente -->
+        <!-- Selector de Agente (Solo Admins) -->
         <select
-          v-if="!soloMias"
+          v-if="!soloMias && !isCliente"
           :value="selectedAgenteId ?? ''"
           @change="emit('update:selectedAgenteId', ($event.target as HTMLSelectElement).value ? Number(($event.target as HTMLSelectElement).value) : null)"
-          class="bg-neutral-950 border border-neutral-800 rounded-lg px-2.5 py-1.5 text-xs text-neutral-300 focus:outline-none focus:border-neutral-500"
+          class="bg-[#141417] border border-neutral-800 rounded-xl px-2.5 py-1.5 text-xs text-neutral-300 focus:outline-none focus:border-neutral-600"
         >
           <option value="">Todos los Agentes</option>
           <option v-for="a in agentes" :key="a.id" :value="a.id">
@@ -89,38 +90,39 @@ const prioridades = [
           </option>
         </select>
 
-        <!-- Recargar -->
+        <!-- Recargar (Solo Staff) -->
         <button
+          v-if="!isCliente"
           @click="emit('refresh')"
-          class="p-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700 transition-colors"
+          class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
           title="Actualizar lista"
         >
           <i class="pi pi-refresh text-xs"></i>
         </button>
 
-        <!-- Botón Nueva Solicitud (Sleek Monocromático) -->
+        <!-- Botón Nueva Solicitud -->
         <button
           @click="emit('new-solicitud')"
-          class="px-3.5 py-1.5 rounded-lg bg-neutral-100 hover:bg-white text-neutral-950 text-xs font-medium flex items-center space-x-1.5 transition-colors active:scale-98"
+          class="px-4 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold flex items-center space-x-1.5 transition-all shadow-sm active:scale-95"
         >
           <i class="pi pi-plus text-xs"></i>
-          <span>Nueva Solicitud</span>
+          <span>{{ isCliente ? 'Crear Solicitud' : 'Nueva Solicitud' }}</span>
         </button>
       </div>
     </div>
 
     <!-- Pestañas de Estado y Prioridad -->
-    <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-neutral-900">
+    <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-neutral-800/80">
       <!-- Tabs de Estado -->
-      <div class="flex flex-wrap items-center gap-1 p-0.5 rounded-lg bg-neutral-950 border border-neutral-800">
+      <div class="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-[#141417] border border-neutral-800">
         <button
           v-for="e in estados"
           :key="e.value"
           @click="emit('update:selectedEstado', e.value)"
           :class="[
-            'px-2.5 py-1 rounded text-xs transition-colors',
+            'px-3 py-1 rounded-lg text-xs font-medium transition-colors',
             selectedEstado === e.value
-              ? 'bg-neutral-800 text-white font-medium'
+              ? 'bg-neutral-800 text-white shadow-sm'
               : 'text-neutral-400 hover:text-white'
           ]"
         >
@@ -136,10 +138,10 @@ const prioridades = [
           :key="p.value"
           @click="emit('update:selectedPrioridad', p.value)"
           :class="[
-            'px-2 py-0.5 rounded text-[10px] font-mono border transition-colors',
+            'px-2.5 py-1 rounded-lg text-[10px] font-mono border transition-colors',
             selectedPrioridad === p.value
-              ? 'bg-neutral-800 text-white border-neutral-700 font-medium'
-              : 'bg-neutral-950 text-neutral-400 border-neutral-800 hover:border-neutral-700 hover:text-white'
+              ? 'bg-neutral-800 text-white border-neutral-600 font-medium shadow-sm'
+              : 'bg-[#141417] text-neutral-400 border-neutral-800/80 hover:border-neutral-700 hover:text-white'
           ]"
         >
           {{ p.label }}

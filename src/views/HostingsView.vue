@@ -178,7 +178,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-[#080C14] text-slate-100 selection:bg-cyan-600 selection:text-white flex overflow-hidden">
+  <div class="h-screen w-screen bg-[#09090b] text-neutral-100 selection:bg-neutral-700 selection:text-white flex overflow-hidden font-sans">
     <!-- MENÚ LATERAL -->
     <AppSidebar
       :is-mobile-open="isMobileSidebarOpen"
@@ -188,19 +188,19 @@ onMounted(() => {
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16">
       <!-- HEADER SUPERIOR -->
-      <header class="sticky top-0 z-30 bg-[#0A0F1D]/80 backdrop-blur-md border-b border-slate-800/80 h-16 shrink-0">
+      <header class="sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md border-b border-neutral-800/80 h-16 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <button
               @click="isMobileSidebarOpen = true"
-              class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              class="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors"
             >
-              <i class="pi pi-bars text-base"></i>
+              <i class="pi pi-bars text-sm"></i>
             </button>
             <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-white">Consulta de Hosting</span>
-              <span class="text-slate-600 hidden sm:inline">•</span>
-              <span class="text-xs text-cyan-400 font-semibold uppercase tracking-wider hidden sm:inline">Servidores & Alojamiento</span>
+              <span class="text-sm font-semibold tracking-tight text-white">Consulta de Hosting</span>
+              <span class="text-neutral-600 hidden sm:inline">•</span>
+              <span class="text-[11px] text-neutral-400 font-mono uppercase tracking-wider hidden sm:inline">Servidores & Alojamiento</span>
             </div>
           </div>
 
@@ -209,7 +209,7 @@ onMounted(() => {
             <button
               v-if="isSuperAdmin"
               @click="openCreate"
-              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold shadow-lg shadow-amber-500/20 flex items-center space-x-1.5 transition-all duration-200 active:scale-95"
+              class="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold shadow-sm flex items-center space-x-1.5 transition-all duration-200 active:scale-95"
             >
               <i class="pi pi-plus text-xs"></i>
               <span>Asignar Hosting</span>
@@ -218,7 +218,7 @@ onMounted(() => {
             <!-- Botón Salir / Logout -->
             <button
               @click="handleLogout"
-              class="p-2 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/60 transition-colors"
+              class="p-2 rounded-xl bg-neutral-900 hover:bg-rose-500/10 text-neutral-400 hover:text-rose-400 border border-neutral-800 transition-colors"
               title="Cerrar sesión"
             >
               <i class="pi pi-sign-out text-sm"></i>
@@ -240,21 +240,21 @@ onMounted(() => {
         />
 
         <!-- 2. BARRA DE BÚSQUEDA Y FILTROS -->
-        <div class="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-slate-800/80 space-y-4">
+        <div class="p-4 sm:p-5 rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 space-y-4">
           <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
             <div class="relative w-full md:w-96">
-              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
               <input
                 v-model="searchQuery"
                 @input="handleSearchInput"
                 type="text"
                 placeholder="Buscar por host, dominio, cliente o usuario..."
-                class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                class="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs sm:text-sm text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors font-sans"
               />
               <button
                 v-if="searchQuery"
                 @click="clearSearch"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300"
               >
                 <i class="pi pi-times text-xs"></i>
               </button>
@@ -262,22 +262,22 @@ onMounted(() => {
 
             <!-- Toggle Tabla / Tarjetas & Recargar -->
             <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
-              <div class="flex p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+              <div class="flex p-0.5 rounded-xl bg-[#141417] border border-neutral-800">
                 <button
                   @click="viewMode = 'table'"
                   :class="[
-                    'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                    viewMode === 'table' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                    'p-1.5 rounded-lg text-xs transition-colors',
+                    viewMode === 'table' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
                   ]"
                   title="Vista Tabla"
                 >
-                  <i class="pi pi-list"></i>
+                  <i class="pi pi-table"></i>
                 </button>
                 <button
                   @click="viewMode = 'cards'"
                   :class="[
-                    'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                    viewMode === 'cards' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                    'p-1.5 rounded-lg text-xs transition-colors',
+                    viewMode === 'cards' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white'
                   ]"
                   title="Vista Tarjetas"
                 >
@@ -287,7 +287,7 @@ onMounted(() => {
 
               <button
                 @click="loadHostings"
-                class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-colors"
+                class="p-2 rounded-xl bg-[#141417] hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 transition-colors"
                 title="Actualizar datos"
               >
                 <i :class="['pi pi-refresh text-xs', isLoading ? 'pi-spin' : '']"></i>
@@ -296,7 +296,7 @@ onMounted(() => {
           </div>
 
           <!-- Filtros Rápidos -->
-          <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs custom-scrollbar">
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs select-none scrollbar-thin">
             <button
               v-for="f in [
                 { key: 'activos', label: 'Activos' },
@@ -310,10 +310,10 @@ onMounted(() => {
               :key="f.key"
               @click="setFilter(f.key)"
               :class="[
-                'px-3 py-1 rounded-xl font-semibold whitespace-nowrap transition-all',
+                'px-3 py-1.5 rounded-xl font-medium transition-all shrink-0 flex items-center space-x-1.5 border text-xs',
                 activeFilter === f.key
-                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                  : 'bg-slate-950/60 text-slate-400 hover:text-white border border-slate-800/60'
+                  ? 'bg-neutral-800 text-white border-neutral-600 font-semibold'
+                  : 'bg-[#141417] text-neutral-400 border-neutral-800/80 hover:border-neutral-700 hover:text-neutral-200'
               ]"
             >
               {{ f.label }}
@@ -322,18 +322,18 @@ onMounted(() => {
         </div>
 
         <!-- 3. LISTADO (TABLA O TARJETAS) -->
-        <div class="rounded-3xl bg-slate-900/70 border border-slate-800/80 overflow-hidden shadow-xl">
+        <div class="rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 overflow-hidden">
           <div v-if="isLoading" class="p-16 flex flex-col items-center justify-center space-y-3">
-            <i class="pi pi-spin pi-spinner text-3xl text-cyan-400"></i>
-            <span class="text-xs text-slate-400 font-medium">Cargando servidores de hosting...</span>
+            <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
+            <span class="text-xs text-neutral-400 font-mono">Cargando servidores de hosting...</span>
           </div>
 
           <div v-else-if="hostings.length === 0" class="p-16 text-center space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-slate-800/80 text-slate-500 flex items-center justify-center mx-auto text-xl">
+            <div class="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 text-neutral-500 flex items-center justify-center mx-auto text-xl">
               <i class="pi pi-server"></i>
             </div>
-            <div class="text-sm font-semibold text-slate-300">No se encontraron servicios de hosting</div>
-            <p class="text-xs text-slate-500 max-w-sm mx-auto">
+            <div class="text-sm font-semibold text-white">No se encontraron servicios de hosting</div>
+            <p class="text-xs text-neutral-500 max-w-sm mx-auto">
               No hay registros con los filtros o término de búsqueda aplicados actualmente.
             </p>
           </div>
@@ -361,27 +361,27 @@ onMounted(() => {
             </div>
 
             <!-- Paginación -->
-            <div class="p-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 bg-slate-950/40">
-              <div>
+            <div class="p-4 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400 bg-[#141417]/40">
+              <div class="font-mono">
                 Mostrando <span class="font-bold text-white">{{ hostings.length }}</span> de <span class="font-bold text-white">{{ totalItems }}</span> registros
               </div>
               <div class="flex items-center space-x-1.5">
                 <button
                   @click="changePage(currentPage - 1)"
                   :disabled="currentPage === 1"
-                  class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300"
+                  class="px-3 py-1.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs font-medium text-neutral-300 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-300 transition-colors"
                 >
-                  <i class="pi pi-chevron-left text-xs"></i>
+                  Anterior
                 </button>
-                <span class="px-3 py-1 font-semibold text-white">
+                <span class="px-3 py-1 font-mono font-medium text-white">
                   Página {{ currentPage }} de {{ totalPages }}
                 </span>
                 <button
                   @click="changePage(currentPage + 1)"
                   :disabled="currentPage === totalPages"
-                  class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300"
+                  class="px-3 py-1.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs font-medium text-neutral-300 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-300 transition-colors"
                 >
-                  <i class="pi pi-chevron-right text-xs"></i>
+                  Siguiente
                 </button>
               </div>
             </div>

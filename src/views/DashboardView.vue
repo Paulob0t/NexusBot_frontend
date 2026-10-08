@@ -57,6 +57,14 @@ onMounted(() => {
   loadDashboardData(true)
 })
 
+function goToTienda() {
+  if (currentSistema.value === 'conlineweb') {
+    router.push('/tienda/web')
+  } else {
+    router.push('/tienda/bot')
+  }
+}
+
 function handleLogout() {
   authStore.logout()
   router.push('/login')
@@ -142,34 +150,46 @@ const maxTrendAmount = computed(() => {
             <div class="hidden sm:flex items-center space-x-2.5">
               <span class="text-sm font-semibold text-white">Dashboard</span>
               <span class="text-neutral-700">/</span>
-              <span class="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">{{ currentSistema }}</span>
+              <span class="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">
+                {{ currentSistema === 'conlineweb' ? 'Puvnext Web' : 'Puvnext Bot' }}
+              </span>
             </div>
           </div>
 
-          <div class="flex items-center space-x-3 sm:space-x-4">
-            <!-- Selector Fluido ConlineWeb / HostingPro (Pill animado) -->
-            <div v-if="!isClient" class="relative flex p-1 rounded-lg bg-neutral-950 border border-neutral-800 select-none">
+          <div class="flex items-center space-x-2.5 sm:space-x-3">
+            <!-- Selector Fluido Puvnext Web / Puvnext Bot (Pill animado) -->
+            <div v-if="!isClient" class="relative flex p-1 rounded-xl bg-neutral-950 border border-neutral-800 select-none">
               <!-- Fondo deslizante animado -->
               <div
-                class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-md bg-neutral-800 transition-all duration-200 ease-out pointer-events-none"
+                class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-neutral-800 transition-all duration-200 ease-out pointer-events-none"
                 :class="currentSistema === 'conlineweb' ? 'left-1' : 'left-[calc(50%+2px)]'"
               ></div>
 
               <button
                 @click="currentSistema = 'conlineweb'"
-                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                class="relative z-10 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
                 :class="currentSistema === 'conlineweb' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-white'"
               >
-                ConlineWeb
+                Puvnext Web
               </button>
               <button
                 @click="currentSistema = 'hostingpro'"
-                class="relative z-10 px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200"
+                class="relative z-10 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
                 :class="currentSistema === 'hostingpro' ? 'text-white font-semibold' : 'text-neutral-400 hover:text-white'"
               >
-                HostingPro
+                Puvnext Bot
               </button>
             </div>
+
+            <!-- Botón Ver Tienda correspondiente al switch activo -->
+            <button
+              @click="goToTienda"
+              class="px-3 py-1.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-neutral-300 hover:text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors shadow-sm"
+              :title="currentSistema === 'conlineweb' ? 'Ver Tienda Puvnext Web' : 'Ver Tienda Puvnext Bot'"
+            >
+              <i class="pi pi-shopping-bag text-xs"></i>
+              <span class="hidden md:inline">Ver Tienda</span>
+            </button>
 
             <!-- Perfil & Logout -->
             <div class="flex items-center space-x-3 pl-2 sm:pl-3 border-l border-neutral-800">

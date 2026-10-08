@@ -170,7 +170,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-[#080C14] text-slate-100 selection:bg-cyan-600 selection:text-white flex overflow-hidden">
+  <div class="h-screen w-screen bg-[#09090b] text-neutral-100 selection:bg-white selection:text-black flex overflow-hidden">
     <!-- MENÚ LATERAL -->
     <AppSidebar
       :is-mobile-open="isMobileSidebarOpen"
@@ -180,19 +180,19 @@ onMounted(() => {
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16">
       <!-- HEADER SUPERIOR -->
-      <header class="sticky top-0 z-30 bg-[#0A0F1D]/80 backdrop-blur-md border-b border-slate-800/80 h-16 shrink-0">
+      <header class="sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md border-b border-neutral-800/80 h-16 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <button
               @click="isMobileSidebarOpen = true"
-              class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              class="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
             >
               <i class="pi pi-bars text-base"></i>
             </button>
             <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-white">Consulta de Pagos</span>
-              <span class="text-slate-600 hidden sm:inline">•</span>
-              <span class="text-xs text-cyan-400 font-semibold uppercase tracking-wider hidden sm:inline">Tesorería & Facturación</span>
+              <span class="text-sm font-semibold text-white">Consulta de Pagos</span>
+              <span class="text-neutral-700 hidden sm:inline">•</span>
+              <span class="text-xs text-neutral-400 font-medium uppercase tracking-wider hidden sm:inline">Tesorería & Facturación</span>
             </div>
           </div>
 
@@ -201,7 +201,7 @@ onMounted(() => {
             <button
               v-if="isSuperAdmin"
               @click="openCreate"
-              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white text-xs font-bold shadow-lg shadow-emerald-500/20 flex items-center space-x-1.5 transition-all duration-200 active:scale-95"
+              class="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold flex items-center space-x-1.5 transition-all duration-150 active:scale-95 shadow-sm"
             >
               <i class="pi pi-plus text-xs"></i>
               <span>Registrar Pago</span>
@@ -210,7 +210,7 @@ onMounted(() => {
             <!-- Botón Salir / Logout -->
             <button
               @click="handleLogout"
-              class="p-2 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/60 transition-colors"
+              class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-rose-500/10 text-neutral-400 hover:text-rose-400 transition-colors"
               title="Cerrar sesión"
             >
               <i class="pi pi-sign-out text-sm"></i>
@@ -232,21 +232,21 @@ onMounted(() => {
         />
 
         <!-- 2. BARRA DE BÚSQUEDA Y FILTROS -->
-        <div class="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-slate-800/80 space-y-4">
+        <div class="p-4 sm:p-5 rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 space-y-4">
           <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
             <div class="relative w-full md:w-96">
-              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
               <input
                 v-model="searchQuery"
                 @input="handleSearchInput"
                 type="text"
                 placeholder="Buscar por concepto, cliente, folio o monto..."
-                class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                class="w-full pl-9 pr-8 py-2 rounded-xl bg-[#141417] border border-neutral-800 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-all"
               />
               <button
                 v-if="searchQuery"
                 @click="clearSearch"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
               >
                 <i class="pi pi-times text-xs"></i>
               </button>
@@ -254,12 +254,12 @@ onMounted(() => {
 
             <!-- Toggle Tabla / Tarjetas & Recargar -->
             <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
-              <div class="flex p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+              <div class="flex p-1 rounded-xl bg-[#141417] border border-neutral-800">
                 <button
                   @click="viewMode = 'table'"
                   :class="[
                     'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                    viewMode === 'table' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                    viewMode === 'table' ? 'bg-neutral-800 text-white shadow-sm' : 'text-neutral-400 hover:text-white'
                   ]"
                   title="Vista Tabla"
                 >
@@ -269,7 +269,7 @@ onMounted(() => {
                   @click="viewMode = 'cards'"
                   :class="[
                     'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                    viewMode === 'cards' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                    viewMode === 'cards' ? 'bg-neutral-800 text-white shadow-sm' : 'text-neutral-400 hover:text-white'
                   ]"
                   title="Vista Tarjetas"
                 >
@@ -279,7 +279,7 @@ onMounted(() => {
 
               <button
                 @click="loadPagos"
-                class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-colors"
+                class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
                 title="Actualizar pagos"
               >
                 <i :class="['pi pi-refresh text-xs', isLoading ? 'pi-spin' : '']"></i>
@@ -288,7 +288,7 @@ onMounted(() => {
           </div>
 
           <!-- Filtros Rápidos y Rango de Fechas -->
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-2 border-t border-neutral-800/80">
             <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs custom-scrollbar">
               <button
                 v-for="f in [
@@ -304,10 +304,10 @@ onMounted(() => {
                 :key="f.key"
                 @click="setFilter(f.key)"
                 :class="[
-                  'px-3 py-1 rounded-xl font-semibold whitespace-nowrap transition-all',
+                  'px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all',
                   activeFilter === f.key
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                    : 'bg-slate-950/60 text-slate-400 hover:text-white border border-slate-800/60'
+                    ? 'bg-neutral-800 text-white border border-neutral-600'
+                    : 'bg-[#141417] text-neutral-400 hover:text-white border border-neutral-800/80'
                 ]"
               >
                 {{ f.label }}
@@ -316,26 +316,26 @@ onMounted(() => {
 
             <!-- Selector de Rango de Fechas -->
             <div class="flex items-center space-x-2 text-xs">
-              <span class="text-slate-500 text-[11px] whitespace-nowrap">Rango:</span>
+              <span class="text-neutral-500 text-[11px] whitespace-nowrap font-medium">Rango:</span>
               <input
                 v-model="fechaDesde"
                 @change="loadPagos"
                 type="date"
-                class="px-2.5 py-1 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                class="px-2.5 py-1 rounded-xl bg-[#141417] border border-neutral-800 text-xs text-white focus:outline-none focus:border-neutral-600 font-mono [color-scheme:dark]"
                 title="Fecha inicio"
               />
-              <span class="text-slate-600">-</span>
+              <span class="text-neutral-600">-</span>
               <input
                 v-model="fechaHasta"
                 @change="loadPagos"
                 type="date"
-                class="px-2.5 py-1 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                class="px-2.5 py-1 rounded-xl bg-[#141417] border border-neutral-800 text-xs text-white focus:outline-none focus:border-neutral-600 font-mono [color-scheme:dark]"
                 title="Fecha fin"
               />
               <button
                 v-if="fechaDesde || fechaHasta"
                 @click="fechaDesde = ''; fechaHasta = ''; loadPagos()"
-                class="p-1 text-slate-500 hover:text-white"
+                class="p-1 text-neutral-500 hover:text-white"
                 title="Limpiar fechas"
               >
                 <i class="pi pi-times text-xs"></i>
@@ -345,18 +345,18 @@ onMounted(() => {
         </div>
 
         <!-- 3. LISTADO (TABLA O TARJETAS) -->
-        <div class="rounded-3xl bg-slate-900/70 border border-slate-800/80 overflow-hidden shadow-xl">
+        <div class="rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 overflow-hidden shadow-sm">
           <div v-if="isLoading" class="p-16 flex flex-col items-center justify-center space-y-3">
-            <i class="pi pi-spin pi-spinner text-3xl text-cyan-400"></i>
-            <span class="text-xs text-slate-400 font-medium">Cargando registros de pagos...</span>
+            <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
+            <span class="text-xs text-neutral-400 font-medium">Cargando registros de pagos...</span>
           </div>
 
           <div v-else-if="pagos.length === 0" class="p-16 text-center space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-slate-800/80 text-slate-500 flex items-center justify-center mx-auto text-xl">
+            <div class="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 text-neutral-400 flex items-center justify-center mx-auto text-xl">
               <i class="pi pi-credit-card"></i>
             </div>
-            <div class="text-sm font-semibold text-slate-300">No se encontraron pagos registrados</div>
-            <p class="text-xs text-slate-500 max-w-sm mx-auto">
+            <div class="text-sm font-semibold text-white">No se encontraron pagos registrados</div>
+            <p class="text-xs text-neutral-400 max-w-sm mx-auto">
               No hay pagos que coincidan con los filtros o término de búsqueda aplicados actualmente.
             </p>
           </div>
@@ -386,25 +386,25 @@ onMounted(() => {
             </div>
 
             <!-- Paginación -->
-            <div class="p-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 bg-slate-950/40">
+            <div class="p-4 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400 bg-neutral-900/20">
               <div>
-                Mostrando <span class="font-bold text-white">{{ pagos.length }}</span> de <span class="font-bold text-white">{{ totalItems }}</span> registros
+                Mostrando <span class="font-mono font-bold text-white">{{ pagos.length }}</span> de <span class="font-mono font-bold text-white">{{ totalItems }}</span> registros
               </div>
               <div class="flex items-center space-x-1.5">
                 <button
                   @click="changePage(currentPage - 1)"
                   :disabled="currentPage === 1"
-                  class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300"
+                  class="p-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed text-neutral-300"
                 >
                   <i class="pi pi-chevron-left text-xs"></i>
                 </button>
-                <span class="px-3 py-1 font-semibold text-white">
+                <span class="px-3 py-1 font-mono text-xs font-semibold text-white">
                   Página {{ currentPage }} de {{ totalPages }}
                 </span>
                 <button
                   @click="changePage(currentPage + 1)"
                   :disabled="currentPage === totalPages"
-                  class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300"
+                  class="p-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed text-neutral-300"
                 >
                   <i class="pi pi-chevron-right text-xs"></i>
                 </button>

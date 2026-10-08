@@ -130,18 +130,18 @@ function onHostingSelect(hostId: number) {
 </script>
 
 <template>
-  <div class="p-6 rounded-3xl bg-slate-900/70 border border-slate-800/80 shadow-xl space-y-4">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-800/60">
+  <div class="p-6 rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 shadow-sm space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-neutral-800/80">
       <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold">
-          <i class="pi pi-user text-sm"></i>
+        <div class="w-8 h-8 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 flex items-center justify-center font-bold">
+          <i class="pi pi-user text-xs"></i>
         </div>
         <div>
-          <h2 class="text-sm font-bold text-white">Cliente & Servicio a Cobrar</h2>
-          <p class="text-[11px] text-slate-400">Selecciona el titular y el origen del cobro</p>
+          <h2 class="text-sm font-semibold text-white">Cliente & Servicio a Cobrar</h2>
+          <p class="text-[11px] text-neutral-400">Selecciona el titular y el origen del cobro</p>
         </div>
       </div>
-      <span v-if="selectedClientFacturacion === 1" class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-bold">
+      <span v-if="selectedClientFacturacion === 1" class="px-2.5 py-1 rounded-lg bg-neutral-900 border border-neutral-700 text-neutral-300 text-[10px] font-medium font-mono">
         Facturación Activa (+16% IVA)
       </span>
     </div>
@@ -149,51 +149,51 @@ function onHostingSelect(hostId: number) {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <!-- Selector de Cliente -->
       <div class="sm:col-span-2 lg:col-span-1 relative">
-        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-          Cliente <span class="text-rose-500">*</span>
+        <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1.5">
+          Cliente <span class="text-rose-400">*</span>
         </label>
         <button
           type="button"
           @click="isDropdownOpen = !isDropdownOpen"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-left flex items-center justify-between transition-all focus:outline-none focus:border-indigo-500"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-[#141417] border border-neutral-800 hover:border-neutral-700 text-left flex items-center justify-between transition-all focus:outline-none focus:border-neutral-600"
         >
           <div v-if="selectedClient" class="flex items-center space-x-2.5 min-w-0">
-            <span class="text-xs font-bold text-white truncate">{{ selectedClient.empresa }}</span>
-            <span class="text-[10px] text-slate-500">#{{ selectedClient.id }}</span>
+            <span class="text-xs font-semibold text-white truncate">{{ selectedClient.empresa }}</span>
+            <span class="text-[10px] text-neutral-500 font-mono">#{{ selectedClient.id }}</span>
           </div>
-          <span v-else class="text-xs text-slate-500 truncate">
+          <span v-else class="text-xs text-neutral-500 truncate">
             {{ isLoadingClients ? 'Cargando clientes...' : 'Seleccionar cliente...' }}
           </span>
-          <i class="pi text-xs text-slate-400" :class="isDropdownOpen ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+          <i class="pi text-xs text-neutral-400" :class="isDropdownOpen ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
         </button>
 
         <!-- Dropdown con búsqueda -->
         <div
           v-if="isDropdownOpen"
-          class="absolute left-0 right-0 top-full mt-2 z-40 bg-[#0C1222] border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden animate-fadeIn"
+          class="absolute left-0 right-0 top-full mt-2 z-40 bg-[#0c0c0e] border border-neutral-800 rounded-xl shadow-2xl overflow-hidden"
         >
-          <div class="p-2 border-b border-slate-800/80 bg-slate-950/50">
+          <div class="p-2 border-b border-neutral-800 bg-[#141417]">
             <input
               v-model="searchQuery"
               type="text"
               placeholder="Buscar cliente..."
-              class="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+              class="w-full px-3 py-1.5 rounded-lg bg-[#0c0c0e] border border-neutral-800 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600"
               autofocus
             />
           </div>
-          <div class="max-h-52 overflow-y-auto divide-y divide-slate-800/40">
+          <div class="max-h-52 overflow-y-auto divide-y divide-neutral-800/40 custom-scrollbar">
             <div
               v-for="c in filteredClients"
               :key="c.id"
               @click="selectClient(c)"
-              class="p-2.5 hover:bg-indigo-500/10 cursor-pointer flex items-center justify-between transition-colors text-xs"
-              :class="selectedClient?.id === c.id ? 'bg-indigo-500/15' : ''"
+              class="p-2.5 hover:bg-neutral-800/50 cursor-pointer flex items-center justify-between transition-colors text-xs"
+              :class="selectedClient?.id === c.id ? 'bg-neutral-800/40' : ''"
             >
               <div class="min-w-0">
-                <span class="font-bold text-white block truncate">{{ c.empresa }}</span>
-                <span class="text-[10px] text-slate-400 block truncate">{{ c.nombre_contacto }}</span>
+                <span class="font-medium text-white block truncate">{{ c.empresa }}</span>
+                <span class="text-[10px] text-neutral-400 block truncate">{{ c.nombre_contacto }}</span>
               </div>
-              <span class="text-[10px] text-slate-500 shrink-0">#{{ c.id }}</span>
+              <span class="text-[10px] text-neutral-500 font-mono shrink-0">#{{ c.id }}</span>
             </div>
           </div>
         </div>
@@ -201,15 +201,15 @@ function onHostingSelect(hostId: number) {
 
       <!-- Tipo de Servicio -->
       <div>
-        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+        <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1.5">
           Tipo de Cobro / Servicio
         </label>
         <div class="grid grid-cols-3 gap-1.5">
           <button
             type="button"
             @click="onServiceTypeChange(0)"
-            class="py-2 px-2 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center space-x-1"
-            :class="formData.tipo_servicio === 0 ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-white'"
+            class="py-2.5 px-2 rounded-xl text-xs font-semibold border transition-colors flex items-center justify-center space-x-1"
+            :class="formData.tipo_servicio === 0 ? 'bg-neutral-800 text-white border-neutral-600 shadow-sm' : 'bg-[#141417] border-neutral-800/80 text-neutral-400 hover:text-white'"
           >
             <i class="pi pi-receipt text-[11px]"></i>
             <span>Manual</span>
@@ -217,8 +217,8 @@ function onHostingSelect(hostId: number) {
           <button
             type="button"
             @click="onServiceTypeChange(2)"
-            class="py-2 px-2 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center space-x-1"
-            :class="formData.tipo_servicio === 2 ? 'bg-cyan-600 text-white border-cyan-500' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-white'"
+            class="py-2.5 px-2 rounded-xl text-xs font-semibold border transition-colors flex items-center justify-center space-x-1"
+            :class="formData.tipo_servicio === 2 ? 'bg-neutral-800 text-white border-neutral-600 shadow-sm' : 'bg-[#141417] border-neutral-800/80 text-neutral-400 hover:text-white'"
           >
             <i class="pi pi-globe text-[11px]"></i>
             <span>Dominio</span>
@@ -226,8 +226,8 @@ function onHostingSelect(hostId: number) {
           <button
             type="button"
             @click="onServiceTypeChange(1)"
-            class="py-2 px-2 rounded-xl text-xs font-bold border transition-colors flex items-center justify-center space-x-1"
-            :class="formData.tipo_servicio === 1 ? 'bg-amber-600 text-white border-amber-500' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-white'"
+            class="py-2.5 px-2 rounded-xl text-xs font-semibold border transition-colors flex items-center justify-center space-x-1"
+            :class="formData.tipo_servicio === 1 ? 'bg-neutral-800 text-white border-neutral-600 shadow-sm' : 'bg-[#141417] border-neutral-800/80 text-neutral-400 hover:text-white'"
           >
             <i class="pi pi-server text-[11px]"></i>
             <span>Hosting</span>
@@ -237,7 +237,7 @@ function onHostingSelect(hostId: number) {
 
       <!-- Selector de Servicio específico (Dominio o Hosting) -->
       <div>
-        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+        <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1.5">
           Servicio Asociado
         </label>
 
@@ -246,7 +246,7 @@ function onHostingSelect(hostId: number) {
           v-if="formData.tipo_servicio === 2"
           :value="formData.id_servicio"
           @change="onDominioSelect(Number(($event.target as HTMLSelectElement).value))"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs text-white focus:outline-none focus:border-neutral-600 font-mono"
         >
           <option :value="0">Selecciona un dominio del cliente</option>
           <option
@@ -263,7 +263,7 @@ function onHostingSelect(hostId: number) {
           v-else-if="formData.tipo_servicio === 1"
           :value="formData.id_servicio"
           @change="onHostingSelect(Number(($event.target as HTMLSelectElement).value))"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-white focus:outline-none focus:border-amber-500"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs text-white focus:outline-none focus:border-neutral-600 font-mono"
         >
           <option :value="0">Selecciona un hosting del cliente</option>
           <option
@@ -281,7 +281,7 @@ function onHostingSelect(hostId: number) {
           type="text"
           value="Cobro General / Sin servicio específico"
           disabled
-          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/40 border border-slate-800 text-xs text-slate-500"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-[#141417]/50 border border-neutral-800/60 text-xs text-neutral-500"
         />
       </div>
     </div>

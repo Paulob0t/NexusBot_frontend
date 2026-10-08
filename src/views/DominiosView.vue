@@ -159,7 +159,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-[#080C14] text-slate-100 selection:bg-cyan-600 selection:text-white flex overflow-hidden">
+  <div class="h-screen w-screen bg-[#09090b] text-neutral-100 selection:bg-neutral-700 selection:text-white flex overflow-hidden font-sans">
     <!-- MENÚ LATERAL -->
     <AppSidebar
       :is-mobile-open="isMobileSidebarOpen"
@@ -169,30 +169,30 @@ onMounted(() => {
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto pb-16">
       <!-- HEADER SUPERIOR -->
-      <header class="sticky top-0 z-30 bg-[#0A0F1D]/80 backdrop-blur-md border-b border-slate-800/80 h-16 shrink-0">
+      <header class="sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-md border-b border-neutral-800/80 h-16 shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <button
               @click="isMobileSidebarOpen = true"
-              class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+              class="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors"
             >
-              <i class="pi pi-bars text-base"></i>
+              <i class="pi pi-bars text-sm"></i>
             </button>
             <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-white">Consulta de Dominios</span>
-              <span class="text-slate-600 hidden sm:inline">•</span>
-              <span class="text-xs text-cyan-400 font-semibold uppercase tracking-wider hidden sm:inline">{{ currentSistema }}</span>
+              <span class="text-sm font-semibold tracking-tight text-white">Consulta de Dominios</span>
+              <span class="text-neutral-600 hidden sm:inline">•</span>
+              <span class="text-[11px] text-neutral-400 font-mono uppercase tracking-wider hidden sm:inline">{{ currentSistema }}</span>
             </div>
           </div>
 
           <div class="flex items-center space-x-3">
             <!-- Switcher Sistema -->
-            <div v-if="isSuperAdmin" class="hidden sm:flex p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div v-if="isSuperAdmin" class="hidden sm:flex p-0.5 rounded-xl bg-[#141417] border border-neutral-800">
               <button
                 @click="currentSistema = 'conlineweb'"
                 :class="[
-                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                  currentSistema === 'conlineweb' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                  currentSistema === 'conlineweb' ? 'bg-white text-black shadow-sm font-semibold' : 'text-neutral-400 hover:text-white'
                 ]"
               >
                 ConlineWeb
@@ -200,8 +200,8 @@ onMounted(() => {
               <button
                 @click="currentSistema = 'hostingpro'"
                 :class="[
-                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
-                  currentSistema === 'hostingpro' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                  currentSistema === 'hostingpro' ? 'bg-white text-black shadow-sm font-semibold' : 'text-neutral-400 hover:text-white'
                 ]"
               >
                 HostingPro
@@ -212,7 +212,7 @@ onMounted(() => {
             <button
               v-if="isSuperAdmin"
               @click="openCreate"
-              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 flex items-center space-x-1.5 transition-all duration-200 active:scale-95"
+              class="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold shadow-sm flex items-center space-x-1.5 transition-all duration-200 active:scale-95"
             >
               <i class="pi pi-plus text-xs"></i>
               <span>Asignar Dominio</span>
@@ -221,7 +221,7 @@ onMounted(() => {
             <!-- Perfil / Logout en Header -->
             <button
               @click="handleLogout"
-              class="p-2 rounded-xl bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/60 transition-colors"
+              class="p-2 rounded-xl bg-neutral-900 hover:bg-rose-500/10 text-neutral-400 hover:text-rose-400 border border-neutral-800 transition-colors"
               title="Cerrar sesión"
             >
               <i class="pi pi-sign-out text-sm"></i>
@@ -243,42 +243,42 @@ onMounted(() => {
         />
 
         <!-- 2. BARRA DE BÚSQUEDA Y FILTROS -->
-        <div class="p-4 sm:p-5 rounded-3xl bg-[#0D121F]/90 border border-slate-800/80 space-y-4">
+        <div class="p-4 sm:p-5 rounded-2xl bg-[#0c0c0e] border border-neutral-800/80 space-y-4">
           <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
             <div class="relative w-full md:w-96">
-              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+              <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
               <input
                 v-model="searchQuery"
                 @input="handleSearchInput"
                 type="text"
-                placeholder="Buscar dominio, empresa, contacto o registrador..."
-                class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                placeholder="Buscar dominio, empresa, contacto..."
+                class="w-full pl-9 pr-9 py-2.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs sm:text-sm text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors"
               />
               <button
                 v-if="searchQuery"
                 @click="clearSearch"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300"
               >
                 <i class="pi pi-times text-xs"></i>
               </button>
             </div>
 
             <div class="flex items-center justify-between w-full md:w-auto space-x-3">
-              <span class="text-xs text-slate-400">
+              <span class="text-xs text-neutral-400 font-mono">
                 Mostrando <strong class="text-white">{{ dominios.length }}</strong> de <strong class="text-white">{{ totalItems }}</strong>
               </span>
 
-              <div class="flex p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+              <div class="flex p-0.5 rounded-xl bg-[#141417] border border-neutral-800">
                 <button
                   @click="viewMode = 'table'"
-                  :class="['p-1.5 rounded-lg text-xs transition-colors', viewMode === 'table' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white']"
+                  :class="['p-1.5 rounded-lg text-xs transition-colors', viewMode === 'table' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white']"
                   title="Vista en tabla"
                 >
                   <i class="pi pi-table"></i>
                 </button>
                 <button
                   @click="viewMode = 'cards'"
-                  :class="['p-1.5 rounded-lg text-xs transition-colors', viewMode === 'cards' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white']"
+                  :class="['p-1.5 rounded-lg text-xs transition-colors', viewMode === 'cards' ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:text-white']"
                   title="Vista en tarjetas"
                 >
                   <i class="pi pi-th-large"></i>
@@ -288,11 +288,11 @@ onMounted(() => {
           </div>
 
           <!-- Pestañas Filtros Rápidos -->
-          <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs select-none">
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs select-none scrollbar-thin">
             <button
               v-for="f in [
                 { id: 'todos', label: 'Todos', badge: stats.total },
-                { id: 'activos', label: 'Dominios Activos', badge: stats.activos },
+                { id: 'activos', label: 'Activos', badge: stats.activos },
                 { id: 'por_vencer', label: 'Próximos a Vencer (30d)', badge: stats.por_vencer_30d },
                 { id: 'vencidos', label: 'Vencidos', badge: stats.vencidos },
                 { id: 'pendientes_pago', label: 'Pendientes de Pago', badge: stats.pendientes_pago },
@@ -303,12 +303,14 @@ onMounted(() => {
               :key="f.id"
               @click="setFilter(f.id)"
               :class="[
-                'px-3 py-1.5 rounded-xl font-medium transition-colors shrink-0 flex items-center space-x-1.5',
-                activeFilter === f.id ? 'bg-cyan-600 text-white font-semibold' : 'bg-slate-800/80 text-slate-400 hover:text-white'
+                'px-3 py-1.5 rounded-xl font-medium transition-all shrink-0 flex items-center space-x-1.5 border text-xs',
+                activeFilter === f.id
+                  ? 'bg-neutral-800 text-white border-neutral-600 font-semibold'
+                  : 'bg-[#141417] text-neutral-400 border-neutral-800/80 hover:border-neutral-700 hover:text-neutral-200'
               ]"
             >
               <span>{{ f.label }}</span>
-              <span v-if="f.badge !== undefined && f.badge > 0" class="px-1.5 py-0.2 rounded-full bg-slate-900 text-[10px] text-cyan-300 font-bold border border-cyan-500/30">
+              <span v-if="f.badge !== undefined && f.badge > 0" class="px-1.5 py-0.2 rounded-full bg-neutral-900 text-[10px] text-neutral-300 font-mono border border-neutral-700/60">
                 {{ f.badge }}
               </span>
             </button>
@@ -317,16 +319,19 @@ onMounted(() => {
 
         <!-- 3. CARGA Y LISTADO VACÍO -->
         <div v-if="isLoading" class="py-16 text-center space-y-3">
-          <i class="pi pi-spin pi-spinner text-3xl text-cyan-500"></i>
-          <p class="text-xs text-slate-400">Consultando catálogo de dominios...</p>
+          <i class="pi pi-spin pi-spinner text-2xl text-neutral-400"></i>
+          <p class="text-xs text-neutral-400 font-mono">Consultando catálogo de dominios...</p>
         </div>
 
-        <div v-else-if="dominios.length === 0" class="p-12 text-center rounded-3xl bg-[#0D121F]/40 border border-slate-800/60 space-y-3">
-          <i class="pi pi-globe text-4xl text-slate-600"></i>
-          <h3 class="text-base font-bold text-white">No se encontraron dominios</h3>
+        <div v-else-if="dominios.length === 0" class="p-12 text-center rounded-2xl bg-[#0c0c0e] border border-neutral-800 space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center mx-auto text-neutral-500">
+            <i class="pi pi-globe text-xl"></i>
+          </div>
+          <h3 class="text-sm font-semibold text-white">No se encontraron dominios</h3>
+          <p class="text-xs text-neutral-500 max-w-sm mx-auto">No hay registros que coincidan con la búsqueda o filtro seleccionado.</p>
           <button
             @click="clearSearch(); setFilter('activos')"
-            class="mt-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white transition-colors"
+            class="mt-2 px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-xs font-medium text-neutral-200 transition-colors"
           >
             Restablecer Filtros
           </button>
@@ -357,15 +362,15 @@ onMounted(() => {
           />
 
           <!-- 6. PAGINACIÓN -->
-          <div v-if="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
-            <span class="text-xs text-slate-400">
+          <div v-if="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-neutral-800">
+            <span class="text-xs text-neutral-400 font-mono">
               Página <strong class="text-white">{{ currentPage }}</strong> de <strong class="text-white">{{ totalPages }}</strong>
             </span>
             <div class="flex items-center space-x-1.5">
               <button
                 @click="changePage(currentPage - 1)"
                 :disabled="currentPage === 1"
-                class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white disabled:opacity-40 transition-colors"
+                class="px-3 py-1.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs font-medium text-neutral-300 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-300 transition-colors"
               >
                 Anterior
               </button>
@@ -373,14 +378,14 @@ onMounted(() => {
                 v-for="p in Math.min(totalPages, 5)"
                 :key="`p-${p}`"
                 @click="changePage(p)"
-                :class="['w-8 h-8 rounded-xl text-xs font-bold transition-colors', currentPage === p ? 'bg-cyan-600 text-white' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white']"
+                :class="['w-8 h-8 rounded-xl text-xs font-mono font-medium transition-colors', currentPage === p ? 'bg-white text-black font-bold' : 'bg-[#141417] border border-neutral-800 text-neutral-400 hover:text-white']"
               >
                 {{ p }}
               </button>
               <button
                 @click="changePage(currentPage + 1)"
                 :disabled="currentPage === totalPages"
-                class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white disabled:opacity-40 transition-colors"
+                class="px-3 py-1.5 rounded-xl bg-[#141417] border border-neutral-800 text-xs font-medium text-neutral-300 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-300 transition-colors"
               >
                 Siguiente
               </button>

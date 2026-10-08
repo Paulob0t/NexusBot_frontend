@@ -11,6 +11,8 @@ export default defineConfig({
     }
   },
   server: {
+    host: true,
+    allowedHosts: true,
     port: 5180,
     strictPort: true,
     proxy: {

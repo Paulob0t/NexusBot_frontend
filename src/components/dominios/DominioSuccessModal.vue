@@ -42,93 +42,108 @@ function sendDomainWhatsApp() {
 
 <template>
   <Teleport to="body">
-    <div
-      v-if="isOpen && domain"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md"
-      @click.self="emit('close')"
-    >
-      <div class="w-full max-w-lg bg-[#0B101D] border border-cyan-500/40 rounded-3xl shadow-2xl p-6 space-y-5 animate-fadeIn relative">
-        <button
-          @click="emit('close')"
-          class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800/60 hover:bg-slate-700 transition-colors"
-          title="Cerrar"
-        >
-          <i class="pi pi-times text-xs"></i>
-        </button>
-
-        <div class="flex items-center space-x-3.5">
-          <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl font-bold">
-            <i class="pi pi-globe"></i>
-          </div>
-          <div>
-            <h3 class="text-base font-extrabold text-white">¡Dominio Registrado con Éxito!</h3>
-            <p class="text-xs text-cyan-400 font-mono">https://{{ domain.url_dominio }}</p>
-          </div>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2 text-xs">
-          <div class="flex justify-between text-slate-300">
-            <span class="text-slate-500">Cliente / Empresa:</span>
-            <span class="font-semibold text-white">{{ domain.cliente_empresa }} ({{ domain.cliente_nombre }})</span>
-          </div>
-          <div class="flex justify-between text-slate-300">
-            <span class="text-slate-500">Proveedor:</span>
-            <span class="text-slate-200">{{ domain.proveedor || 'Puvnex' }}</span>
-          </div>
-          <div class="flex justify-between text-slate-300">
-            <span class="text-slate-500">Costo Base:</span>
-            <span class="text-emerald-400 font-bold">${{ Number(domain.costo_dominio).toFixed(2) }}</span>
-          </div>
-          <div v-if="domain.fecha_pago" class="flex justify-between text-slate-300">
-            <span class="text-slate-500">Vigencia / Renovación:</span>
-            <span class="text-amber-400 font-semibold">{{ domain.fecha_pago }}</span>
-          </div>
-        </div>
-
-        <!-- Acciones Rápidas -->
-        <div class="space-y-2">
-          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">¿Qué deseas hacer ahora?</span>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            <button
-              @click="sendDomainWhatsApp"
-              class="p-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-bold flex items-center space-x-2 transition-colors"
-            >
-              <i class="pi pi-whatsapp text-sm"></i>
-              <span>Enviar WhatsApp</span>
-            </button>
-            <button
-              @click="router.push(`/hostings/nuevo?cliente_id=${domain.cliente_id}&dominio=${encodeURIComponent(domain.url_dominio)}`)"
-              class="p-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 font-bold flex items-center space-x-2 transition-colors"
-            >
-              <i class="pi pi-server text-sm"></i>
-              <span>Asignar Hosting</span>
-            </button>
-            <button
-              @click="router.push(`/pagos/nuevo?cliente_id=${domain.cliente_id}&tipo_servicio=2&id_servicio=${domain.id_dominio}&monto=${domain.costo_dominio}&concepto=${encodeURIComponent('Renovación de Dominio: ' + domain.url_dominio)}`)"
-              class="p-3 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/20 font-bold flex items-center space-x-2 transition-colors"
-            >
-              <i class="pi pi-credit-card text-sm"></i>
-              <span>Generar Cobro</span>
-            </button>
-            <button
-              @click="emit('reset-form')"
-              class="p-3 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/20 font-bold flex items-center space-x-2 transition-colors"
-            >
-              <i class="pi pi-plus text-sm"></i>
-              <span>Registrar Otro Dominio</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="pt-2 border-t border-slate-800 flex justify-end">
+    <Transition name="modal-smooth">
+      <div
+        v-if="isOpen && domain"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
+        @click.self="emit('close')"
+      >
+        <div class="w-full max-w-lg bg-[#0c0c0e] border border-neutral-800 rounded-2xl shadow-2xl p-6 space-y-5 relative">
           <button
-            @click="router.push('/dominios')"
-            class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors"
+            @click="emit('close')"
+            class="absolute top-5 right-5 text-neutral-400 hover:text-white p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 transition-colors"
+            title="Cerrar"
           >
-            Ir a Directorio de Dominios
+            <i class="pi pi-times text-xs"></i>
           </button>
+
+          <div class="flex items-center space-x-3.5">
+            <div class="w-11 h-11 rounded-xl bg-neutral-900 border border-neutral-800 text-white flex items-center justify-center text-lg font-bold">
+              <i class="pi pi-globe"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold tracking-tight text-white">Dominio Registrado</h3>
+              <p class="text-xs text-neutral-400 font-mono">https://{{ domain.url_dominio }}</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#141417] border border-neutral-800 space-y-2 text-xs">
+            <div class="flex justify-between text-neutral-300">
+              <span class="text-neutral-500">Cliente / Empresa:</span>
+              <span class="font-medium text-white">{{ domain.cliente_empresa }} ({{ domain.cliente_nombre }})</span>
+            </div>
+            <div class="flex justify-between text-neutral-300">
+              <span class="text-neutral-500">Proveedor:</span>
+              <span class="text-neutral-300">{{ domain.proveedor || 'Puvnex' }}</span>
+            </div>
+            <div class="flex justify-between text-neutral-300">
+              <span class="text-neutral-500">Costo Base:</span>
+              <span class="text-white font-mono font-semibold">${{ Number(domain.costo_dominio).toFixed(2) }}</span>
+            </div>
+            <div v-if="domain.fecha_pago" class="flex justify-between text-neutral-300">
+              <span class="text-neutral-500">Vigencia / Renovación:</span>
+              <span class="text-neutral-300 font-mono">{{ domain.fecha_pago }}</span>
+            </div>
+          </div>
+
+          <!-- Acciones Rápidas -->
+          <div class="space-y-2">
+            <span class="text-[10px] uppercase font-medium text-neutral-500 tracking-wider">Acciones inmediatas</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <button
+                @click="sendDomainWhatsApp"
+                class="p-3 rounded-xl bg-[#141417] hover:bg-neutral-800 text-emerald-400 border border-neutral-800 hover:border-emerald-500/40 font-medium flex items-center space-x-2 transition-colors"
+              >
+                <i class="pi pi-whatsapp text-sm"></i>
+                <span>Enviar WhatsApp</span>
+              </button>
+              <button
+                @click="router.push(`/hostings/nuevo?cliente_id=${domain.cliente_id}&dominio=${encodeURIComponent(domain.url_dominio)}`)"
+                class="p-3 rounded-xl bg-[#141417] hover:bg-neutral-800 text-neutral-200 border border-neutral-800 hover:border-neutral-700 font-medium flex items-center space-x-2 transition-colors"
+              >
+                <i class="pi pi-server text-sm"></i>
+                <span>Asignar Hosting</span>
+              </button>
+              <button
+                @click="router.push(`/pagos/nuevo?cliente_id=${domain.cliente_id}&tipo_servicio=2&id_servicio=${domain.id_dominio}&monto=${domain.costo_dominio}&concepto=${encodeURIComponent('Renovación de Dominio: ' + domain.url_dominio)}`)"
+                class="p-3 rounded-xl bg-[#141417] hover:bg-neutral-800 text-neutral-200 border border-neutral-800 hover:border-neutral-700 font-medium flex items-center space-x-2 transition-colors"
+              >
+                <i class="pi pi-credit-card text-sm"></i>
+                <span>Generar Cobro</span>
+              </button>
+              <button
+                @click="emit('reset-form')"
+                class="p-3 rounded-xl bg-[#141417] hover:bg-neutral-800 text-neutral-200 border border-neutral-800 hover:border-neutral-700 font-medium flex items-center space-x-2 transition-colors"
+              >
+                <i class="pi pi-plus text-sm"></i>
+                <span>Registrar Otro</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-neutral-800 flex justify-end">
+            <button
+              @click="router.push('/dominios')"
+              class="px-5 py-2.5 rounded-xl bg-white hover:bg-neutral-200 text-black text-xs font-semibold shadow-sm transition-all"
+            >
+              Ir a Directorio de Dominios
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
+
+<style scoped>
+.modal-smooth-enter-active,
+.modal-smooth-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.modal-smooth-enter-from,
+.modal-smooth-leave-to {
+  opacity: 0;
+  transform: scale(0.97);
+}
+</style>

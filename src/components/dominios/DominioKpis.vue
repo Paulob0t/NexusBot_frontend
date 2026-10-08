@@ -12,105 +12,108 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
     <!-- Total -->
     <div
       @click="emit('select-filter', 'todos')"
       :class="[
-        'p-4 rounded-2xl border transition-all duration-150 cursor-pointer select-none group relative overflow-hidden',
+        'p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none group',
         activeFilter === 'todos'
-          ? 'bg-gradient-to-br from-blue-900/30 via-slate-900 to-slate-900 border-blue-500/60 shadow-lg shadow-blue-500/10'
-          : 'bg-[#0D121F]/90 border-slate-800/80 hover:border-slate-700 hover:bg-[#111728]'
+          ? 'bg-neutral-900 border-neutral-600 shadow-sm'
+          : 'bg-[#0c0c0e] border-neutral-800/90 hover:border-neutral-700 hover:bg-neutral-900/60'
       ]"
     >
       <div class="flex items-center justify-between">
-        <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Total Dominios</span>
-        <div class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
+        <span class="text-[11px] text-neutral-400 font-medium">Total Dominios</span>
+        <div class="w-7 h-7 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 flex items-center justify-center">
           <i class="pi pi-globe text-xs"></i>
         </div>
       </div>
-      <div class="mt-2.5 text-2xl font-black text-white tracking-tight">{{ stats.total }}</div>
-      <div class="mt-1 text-[10px] text-slate-500 font-medium">Registrados en Suite</div>
+      <div class="mt-2 text-2xl font-semibold text-white tracking-tight font-mono">{{ stats.total }}</div>
+      <div class="mt-1 text-[10px] text-neutral-500">Registrados en suite</div>
     </div>
 
     <!-- Activos -->
     <div
       @click="emit('select-filter', 'activos')"
       :class="[
-        'p-4 rounded-2xl border transition-all duration-150 cursor-pointer select-none group relative overflow-hidden',
+        'p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none group',
         activeFilter === 'activos'
-          ? 'bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border-emerald-500/60 shadow-lg shadow-emerald-500/10'
-          : 'bg-[#0D121F]/90 border-slate-800/80 hover:border-emerald-500/30 hover:bg-[#111728]'
+          ? 'bg-neutral-900 border-neutral-600 shadow-sm'
+          : 'bg-[#0c0c0e] border-neutral-800/90 hover:border-neutral-700 hover:bg-neutral-900/60'
       ]"
     >
       <div class="flex items-center justify-between">
-        <span class="text-[11px] text-emerald-400 font-semibold uppercase tracking-wider">Activos</span>
-        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-          <i class="pi pi-check-circle text-xs"></i>
+        <span class="text-[11px] text-neutral-400 font-medium">Activos</span>
+        <div class="w-7 h-7 rounded-lg bg-emerald-950/40 border border-emerald-800/50 text-emerald-400 flex items-center justify-center">
+          <i class="pi pi-check text-xs"></i>
         </div>
       </div>
-      <div class="mt-2.5 text-2xl font-black text-emerald-300 tracking-tight">{{ stats.activos }}</div>
-      <div class="mt-1 text-[10px] text-emerald-400/60 font-medium">En servicio online</div>
+      <div class="mt-2 text-2xl font-semibold text-white tracking-tight font-mono">{{ stats.activos }}</div>
+      <div class="mt-1 text-[10px] text-emerald-500/80 flex items-center space-x-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span>En línea & resolviendo</span>
+      </div>
     </div>
 
     <!-- Por Vencer (30 días) -->
     <div
       @click="emit('select-filter', 'por_vencer')"
       :class="[
-        'p-4 rounded-2xl border transition-all duration-150 cursor-pointer select-none group relative overflow-hidden',
+        'p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none group',
         activeFilter === 'por_vencer'
-          ? 'bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border-amber-500/60 shadow-lg shadow-amber-500/10'
-          : 'bg-[#0D121F]/90 border-slate-800/80 hover:border-amber-500/30 hover:bg-[#111728]'
+          ? 'bg-neutral-900 border-neutral-600 shadow-sm'
+          : 'bg-[#0c0c0e] border-neutral-800/90 hover:border-neutral-700 hover:bg-neutral-900/60'
       ]"
     >
       <div class="flex items-center justify-between">
-        <span class="text-[11px] text-amber-400 font-semibold uppercase tracking-wider">Próx. 30 Días</span>
-        <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
-          <i class="pi pi-calendar-plus text-xs"></i>
+        <span class="text-[11px] text-neutral-400 font-medium">Próx. 30 Días</span>
+        <div class="w-7 h-7 rounded-lg bg-amber-950/40 border border-amber-800/50 text-amber-400 flex items-center justify-center">
+          <i class="pi pi-calendar text-xs"></i>
         </div>
       </div>
-      <div class="mt-2.5 text-2xl font-black text-amber-300 tracking-tight">{{ stats.por_vencer_30d }}</div>
-      <div class="mt-1 text-[10px] text-amber-400/70 font-medium">Por renovar</div>
+      <div class="mt-2 text-2xl font-semibold text-white tracking-tight font-mono">{{ stats.por_vencer_30d }}</div>
+      <div class="mt-1 text-[10px] text-amber-500/80">Por renovar</div>
     </div>
 
     <!-- Vencidos -->
     <div
       @click="emit('select-filter', 'vencidos')"
       :class="[
-        'p-4 rounded-2xl border transition-all duration-150 cursor-pointer select-none group relative overflow-hidden',
+        'p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none group',
         activeFilter === 'vencidos'
-          ? 'bg-gradient-to-br from-rose-950/40 via-slate-900 to-slate-900 border-rose-500/60 shadow-lg shadow-rose-500/10'
-          : 'bg-[#0D121F]/90 border-slate-800/80 hover:border-rose-500/30 hover:bg-[#111728]'
+          ? 'bg-neutral-900 border-neutral-600 shadow-sm'
+          : 'bg-[#0c0c0e] border-neutral-800/90 hover:border-neutral-700 hover:bg-neutral-900/60'
       ]"
     >
       <div class="flex items-center justify-between">
-        <span class="text-[11px] text-rose-400 font-semibold uppercase tracking-wider">Expirados</span>
-        <div class="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center">
+        <span class="text-[11px] text-neutral-400 font-medium">Expirados</span>
+        <div class="w-7 h-7 rounded-lg bg-rose-950/40 border border-rose-800/50 text-rose-400 flex items-center justify-center">
           <i class="pi pi-exclamation-triangle text-xs"></i>
         </div>
       </div>
-      <div class="mt-2.5 text-2xl font-black text-rose-300 tracking-tight">{{ stats.vencidos }}</div>
-      <div class="mt-1 text-[10px] text-rose-400/60 font-medium">Requieren rescate</div>
+      <div class="mt-2 text-2xl font-semibold text-rose-400 tracking-tight font-mono">{{ stats.vencidos }}</div>
+      <div class="mt-1 text-[10px] text-rose-500/80">Requieren renovación</div>
     </div>
 
     <!-- Pendientes de Pago -->
     <div
       @click="emit('select-filter', 'pendientes_pago')"
       :class="[
-        'col-span-2 sm:col-span-1 p-4 rounded-2xl border transition-all duration-150 cursor-pointer select-none group relative overflow-hidden',
+        'col-span-2 sm:col-span-1 p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none group',
         activeFilter === 'pendientes_pago'
-          ? 'bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border-indigo-500/60 shadow-lg shadow-indigo-500/10'
-          : 'bg-[#0D121F]/90 border-slate-800/80 hover:border-indigo-500/30 hover:bg-[#111728]'
+          ? 'bg-neutral-900 border-neutral-600 shadow-sm'
+          : 'bg-[#0c0c0e] border-neutral-800/90 hover:border-neutral-700 hover:bg-neutral-900/60'
       ]"
     >
       <div class="flex items-center justify-between">
-        <span class="text-[11px] text-indigo-400 font-semibold uppercase tracking-wider">Pago Pendiente</span>
-        <div class="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+        <span class="text-[11px] text-neutral-400 font-medium">Cobro Pendiente</span>
+        <div class="w-7 h-7 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 flex items-center justify-center">
           <i class="pi pi-clock text-xs"></i>
         </div>
       </div>
-      <div class="mt-2.5 text-2xl font-black text-indigo-300 tracking-tight">{{ stats.pendientes_pago }}</div>
-      <div class="mt-1 text-[10px] text-indigo-400/60 font-medium">Por conciliar</div>
+      <div class="mt-2 text-2xl font-semibold text-white tracking-tight font-mono">{{ stats.pendientes_pago }}</div>
+      <div class="mt-1 text-[10px] text-neutral-500">Por conciliar</div>
     </div>
   </div>
 </template>
